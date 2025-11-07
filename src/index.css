@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: theme('colors.primary-black');
+  color: theme('colors.primary-white');
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Custom components */
+@layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-4;
+  }
+
+  .btn {
+    @apply px-4 py-2 bg-accent-red text-primary-white rounded-md hover:bg-accent-red-dark transition-colors duration-300;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 bg-primary-gray text-primary-white rounded-md hover:bg-primary-gray-dark transition-colors duration-300;
+  }
+}
+
+/* Custom utilities */
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, theme('colors.accent-red') 0%, theme('colors.accent-red-dark') 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gold-gradient {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: theme('colors.primary-gray-dark');
+}
+
+::-webkit-scrollbar-thumb {
+  background: theme('colors.accent-red');
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: theme('colors.accent-red-dark');
+}
+
+/* Selection styles */
+::selection {
+  background: rgba(255, 0, 0, 0.3);
+  color: theme('colors.primary-white');
+}
+
+::-moz-selection {
+  background: rgba(255, 0, 0, 0.3);
+  color: theme('colors.primary-white');
+}
+
+/* Focus styles for accessibility */
+*:focus {
+  outline: 2px solid theme('colors.accent-red');
+  outline-offset: 2px;
+}
+
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid theme('colors.accent-red');
+  outline-offset: 2px;
+}
+
+/* Loading animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+/* Nav link underline effect */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: theme('colors.accent-red');
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1024px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+
+  .container {
+    @apply px-2;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
