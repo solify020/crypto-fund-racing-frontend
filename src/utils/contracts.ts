@@ -12,25 +12,53 @@ export class ContractService {
     if (signer) this.setSigner(signer);
   }
 
-  setProvider(provider: ethers.BrowserProvider) {
+  async setProvider(provider: ethers.BrowserProvider) {
     this.provider = provider;
-    this.initializeContracts();
+    await this.initializeContracts();
   }
 
-  setSigner(signer: ethers.JsonRpcSigner) {
+  async setSigner(signer: ethers.JsonRpcSigner) {
     this.signer = signer;
-    this.initializeContracts();
+    await this.initializeContracts();
   }
 
-  private initializeContracts() {
+  private async initializeContracts() {
     if (!this.provider) return;
+
+    // Get the appropriate contract address based on network
+    const contractAddress = await this.getContractAddressForNetwork();
 
     // Initialize main contract
     this.cryptoFundRacingContract = new ethers.Contract(
-      CONTRACT_ADDRESSES.CRYPTO_FUND_RACING,
+      contractAddress,
       CryptoFundRacingABI.abi,
       this.signer || this.provider
     );
+  }
+
+  private async getContractAddressForNetwork(): Promise<string> {
+    if (!this.provider) return CONTRACT_ADDRESSES.CRYPTO_FUND_RACING;
+
+    try {
+      const network = await this.provider.getNetwork();
+      const chainId = network.chainId;
+
+      // Base Mainnet Chain ID is 8453
+      if (chainId === 8453n) {
+        return CONTRACT_ADDRESSES.BASE_MAINNET.CRYPTO_FUND_RACING;
+      }
+
+      // Sepolia Testnet Chain ID is 11155111
+      if (chainId === 11155111n) {
+        return CONTRACT_ADDRESSES.SEPOLIA_TESTNET.CRYPTO_FUND_RACING;
+      }
+
+      // Default to local development
+      return CONTRACT_ADDRESSES.CRYPTO_FUND_RACING;
+    } catch (error) {
+      console.warn('Could not detect network, using default address:', error);
+      return CONTRACT_ADDRESSES.CRYPTO_FUND_RACING;
+    }
   }
 
   private getPoolContract(poolAddress: string): ethers.Contract {

@@ -41,7 +41,7 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
   const [signer, setSigner] = useState<ethers.JsonRpcSigner | null>(null);
   const [contractService, setContractService] = useState<ContractService | null>(null);
 
-  const updateWalletState = async (ethereum: MetamaskProvider) => {
+  const updateWalletState = async (ethereum: MetamaskProvider): Promise<void> => {
     try {
       const accounts = await ethereum.request({ method: 'eth_accounts' });
       const chainId = await ethereum.request({ method: 'eth_chainId' });
@@ -56,6 +56,8 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
 
         // Initialize contract service
         const service = initializeContractService(provider, signer);
+        await service.setProvider(provider);
+        await service.setSigner(signer);
         setContractService(service);
 
         setWalletState({
