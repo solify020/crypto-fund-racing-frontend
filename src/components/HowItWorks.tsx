@@ -45,7 +45,7 @@ const HowItWorks: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 mb-20">
-          {steps.map((step, index) => (
+          {steps.map((step) => (
             <div key={step.step} className="relative bg-primary-gray-dark rounded-2xl p-6 text-center border border-primary-gray transition-all duration-300 hover:-translate-y-2 hover:border-accent-red hover:shadow-xl hover:shadow-red-500/10">
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-accent-red text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-lg shadow-red-500/30">{step.step}</div>
               <div className="text-5xl mb-4 mt-4">{step.icon}</div>

@@ -4,12 +4,12 @@ import { useWeb3 } from '../contexts/Web3Context';
 const Hero: React.FC = () => {
   const { walletState, connectWallet } = useWeb3();
 
-  const scrollToCampaigns = () => {
-    const campaignsSection = document.getElementById('campaigns');
-    if (campaignsSection) {
-      campaignsSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  // const scrollToCampaigns = () => {
+  //   const campaignsSection = document.getElementById('campaigns');
+  //   if (campaignsSection) {
+  //     campaignsSection.scrollIntoView({ behavior: 'smooth' });
+  //   }
+  // };
 
   return (
     <section className="min-h-screen relative flex items-center overflow-hidden bg-primary-black border-b-4 border-accent-red">
