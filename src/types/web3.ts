@@ -23,6 +23,7 @@ export interface Campaign {
   creator: string;
   deadline: Date;
   isActive: boolean;
+  isFinished?: boolean;
   image?: string;
   socialLink?: string;
   socialLinks?: {
@@ -39,6 +40,8 @@ export interface PoolDetails {
   goal: string;
   deadline: Date;
   totalContributed: string;
+  socialLink: string;
+  isFinished: boolean;
 }
 
 export interface DonationTransaction {

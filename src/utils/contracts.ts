@@ -124,6 +124,17 @@ export class ContractService {
     return receipt.hash;
   }
 
+  async withdrawToFromPool(poolAddress: string, to: string): Promise<string> {
+    if (!this.signer) {
+      throw new Error('Wallet not connected');
+    }
+
+    const poolContract = this.getPoolContract(poolAddress);
+    const tx = await poolContract.withdrawTo(to);
+    const receipt = await tx.wait();
+    return receipt.hash;
+  }
+
   async refundFromPool(poolAddress: string): Promise<string> {
     if (!this.signer) {
       throw new Error('Wallet not connected');
@@ -139,6 +150,7 @@ export class ContractService {
     const poolContract = this.getPoolContract(poolAddress);
 
     const poolInfo = await poolContract.getPoolInfo();
+    const isFinished = await poolContract.getIsFinished();
 
     return {
       address: poolAddress,
@@ -146,7 +158,8 @@ export class ContractService {
       goal: ethers.formatEther(poolInfo.goal),
       deadline: new Date(Number(poolInfo.deadline) * 1000),
       totalContributed: ethers.formatEther(poolInfo.totalContributed),
-      socialLink: poolInfo.socialLink
+      socialLink: poolInfo.socialLink,
+      isFinished
     };
   }
 

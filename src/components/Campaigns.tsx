@@ -37,6 +37,7 @@ const Campaigns: React.FC = () => {
             creator: poolDetails.owner,
             deadline: poolDetails.deadline,
             isActive,
+            isFinished: poolDetails.isFinished,
             image: undefined, // No image for now
             socialLink: poolDetails.socialLink || undefined
           } as Campaign;
