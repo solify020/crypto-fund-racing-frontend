@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useAccount } from 'wagmi';
 import { useWeb3 } from '../contexts/Web3Context';
 import type { Campaign } from '../types/web3';
 import CountdownTimer from './CountdownTimer';
@@ -9,6 +10,7 @@ interface CampaignCardProps {
 }
 
 const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
+  const { address } = useAccount();
   const { walletState, contractService } = useWeb3();
   const [donationAmount, setDonationAmount] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -20,10 +22,10 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
   // Fetch user's contribution to this campaign
   useEffect(() => {
     const fetchUserContribution = async () => {
-      if (!contractService || !walletState.account) return;
+      if (!contractService || !address) return;
 
       try {
-        const contribution = await contractService.getContribution(campaign.address, walletState.account);
+        const contribution = await contractService.getContribution(campaign.address, address);
         setUserContribution(contribution);
       } catch (error) {
         console.error('Error fetching user contribution:', error);
@@ -31,7 +33,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
     };
 
     fetchUserContribution();
-  }, [contractService, walletState.account, campaign.address]);
+  }, [contractService, address, campaign.address]);
 
   const handleDonate = async (e: React.FormEvent) => {
     e.preventDefault();

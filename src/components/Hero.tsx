@@ -1,8 +1,10 @@
 import React from 'react';
+import { useAccount } from 'wagmi';
 import { useWeb3 } from '../contexts/Web3Context';
 
 const Hero: React.FC = () => {
-  const { walletState, connectWallet } = useWeb3();
+  const { isConnected } = useAccount();
+  const { connectWallet } = useWeb3();
 
   // const scrollToCampaigns = () => {
   //   const campaignsSection = document.getElementById('campaigns');
@@ -46,7 +48,7 @@ const Hero: React.FC = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 flex-wrap">
-            {walletState.isConnected ? (
+            {isConnected ? (
               <a href="/campaigns" className="btn">
                 Explore Campaigns
               </a>
@@ -54,9 +56,9 @@ const Hero: React.FC = () => {
               <button
                 className="btn disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
                 onClick={connectWallet}
-                disabled={walletState.isConnecting}
+                disabled={false}
               >
-                {walletState.isConnecting ? 'Connecting...' : 'Connect & Start Funding'}
+                Connect & Start Funding
               </button>
             )}
             <a href="/campaigns" className="px-6 py-3 bg-transparent text-white border-2 border-white/30 rounded-full font-semibold cursor-pointer transition-all duration-300 hover:bg-primary-gray-dark hover:border-primary-gray hover:-translate-y-1 text-center">

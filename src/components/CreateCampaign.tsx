@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useAccount } from 'wagmi';
 import { useWeb3 } from '../contexts/Web3Context';
 
 const CreateCampaign: React.FC = () => {
+  const { isConnected } = useAccount();
   const { walletState, contractService } = useWeb3();
   const [formData, setFormData] = useState({
     title: '',
@@ -28,7 +30,7 @@ const CreateCampaign: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!walletState.isConnected || !contractService) {
+    if (!isConnected || !contractService) {
       alert('Please connect your wallet to create a campaign');
       return;
     }
@@ -80,7 +82,7 @@ const CreateCampaign: React.FC = () => {
     }
   };
 
-  if (!walletState.isConnected) {
+  if (!isConnected) {
     return (
       <section className="py-16 min-h-screen bg-gradient-to-br from-primary-black to-black/95">
         <div className="container">

@@ -1,18 +1,9 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useWeb3 } from '../contexts/Web3Context';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const Header: React.FC = () => {
-  const { walletState, connectWallet, disconnectWallet } = useWeb3();
   const location = useLocation();
-
-  const formatAddress = (address: string) => {
-    return `${address.slice(0, 6)}...${address.slice(-4)}`;
-  };
-
-  const formatBalance = (balance: string) => {
-    return parseFloat(balance).toFixed(4);
-  };
 
   return (
     <header className="bg-primary-black py-4 shadow-lg sticky top-0 z-50 border-b-2 border-accent-red">
@@ -31,28 +22,7 @@ const Header: React.FC = () => {
         </nav>
 
         <div className="wallet-section flex items-center md:order-2">
-          {walletState.isConnected ? (
-            <div className="wallet-info flex items-center gap-4 bg-primary-gray-dark p-2 rounded-xl border border-primary-gray sm:flex-col sm:gap-2">
-              <div className="wallet-details flex flex-col items-end sm:items-center">
-                <span className="address text-white font-semibold text-sm">{formatAddress(walletState.account!)}</span>
-                <span className="balance text-accent-red text-xs font-medium">{formatBalance(walletState.balance)} ETH</span>
-              </div>
-              <button
-                className="disconnect-btn bg-primary-gray text-primary-white border-none py-3 px-6 rounded-full font-semibold cursor-pointer transition-all duration-300 shadow-lg shadow-gray-500/30 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-gray-500/40 hover:bg-primary-gray-dark"
-                onClick={disconnectWallet}
-              >
-                Disconnect
-              </button>
-            </div>
-          ) : (
-            <button
-              className="connect-btn bg-accent-red text-primary-white border-none py-3 px-6 rounded-full font-semibold cursor-pointer transition-all duration-300 shadow-lg shadow-red-500/30 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-red-500/40 hover:bg-accent-red-dark disabled:opacity-70 disabled:cursor-not-allowed disabled:translate-y-0"
-              onClick={connectWallet}
-              disabled={walletState.isConnecting}
-            >
-              {walletState.isConnecting ? 'Connecting...' : 'Connect Wallet'}
-            </button>
-          )}
+          <ConnectButton />
         </div>
       </div>
     </header>
