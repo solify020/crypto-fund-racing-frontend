@@ -164,11 +164,9 @@ export class ContractService {
 
   async canWithdraw(poolAddress: string, owner: string): Promise<boolean> {
     const poolDetails = await this.getPoolDetails(poolAddress);
-    const deadlinePassed = await this.isDeadlinePassed(poolAddress);
 
     return poolDetails.owner.toLowerCase() === owner.toLowerCase() &&
-           parseFloat(poolDetails.totalContributed) >= parseFloat(poolDetails.goal) &&
-           deadlinePassed;
+           parseFloat(poolDetails.totalContributed) >= parseFloat(poolDetails.goal);
   }
 
   async canRefund(poolAddress: string): Promise<boolean> {

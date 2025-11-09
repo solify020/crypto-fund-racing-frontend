@@ -147,7 +147,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
                               const txHash = await contractService.withdrawFromPool(campaign.address);
                               alert(`Withdrawal successful! Transaction hash: ${txHash}`);
                             } else {
-                              alert('Cannot withdraw yet. Goal not met or deadline not passed.');
+                              alert('Cannot withdraw yet. Goal not met.');
                             }
                           } catch (error) {
                             console.error('Withdrawal failed:', error);
