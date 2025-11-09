@@ -34,11 +34,9 @@ const Campaigns: React.FC = () => {
             description: `Decentralized funding pool created by ${poolDetails.owner.slice(0, 6)}...${poolDetails.owner.slice(-4)}. Target: ${poolDetails.goal} ETH.`,
             targetAmount: poolDetails.goal,
             currentAmount: poolDetails.totalContributed,
-            creator: poolDetails.owner,
             deadline: poolDetails.deadline,
             isActive,
             isFinished: poolDetails.isFinished,
-            image: undefined, // No image for now
             socialLink: poolDetails.socialLink || undefined
           } as Campaign;
         });

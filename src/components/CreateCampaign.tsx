@@ -11,7 +11,7 @@ const CreateCampaign: React.FC = () => {
     targetAmount: '',
     deadline: '',
     durationInHours: '',
-    image: '',
+    socialLink: '',
     twitter: '',
     discord: '',
     telegram: '',
@@ -57,7 +57,7 @@ const CreateCampaign: React.FC = () => {
     try {
       console.log('Creating campaign:', formData);
 
-      const txHash = await contractService.createPool(formData.targetAmount, durationInHours);
+      const txHash = await contractService.createPool(formData.targetAmount, durationInHours, formData.socialLink);
 
       alert(`Campaign created successfully! Transaction hash: ${txHash}`);
 
@@ -68,7 +68,7 @@ const CreateCampaign: React.FC = () => {
         targetAmount: '',
         deadline: '',
         durationInHours: '',
-        image: '',
+        socialLink: '',
         twitter: '',
         discord: '',
         telegram: '',
@@ -168,14 +168,14 @@ const CreateCampaign: React.FC = () => {
             </div>
 
             <div className="mb-6">
-              <label htmlFor="image" className="block mb-2 font-semibold text-white">Project Image URL</label>
+              <label htmlFor="socialLink" className="block mb-2 font-semibold text-white">Social Media Link</label>
               <input
                 type="url"
-                id="image"
-                name="image"
-                value={formData.image}
+                id="socialLink"
+                name="socialLink"
+                value={formData.socialLink}
                 onChange={handleInputChange}
-                placeholder="https://example.com/image.jpg"
+                placeholder="https://twitter.com/yourproject"
                 className="w-full p-4 bg-white/5 border border-primary-gray rounded-lg text-white placeholder-primary-gray-light focus:outline-none focus:border-accent-red focus:ring-2 focus:ring-red-500/10 transition-colors"
               />
             </div>

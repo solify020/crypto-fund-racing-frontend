@@ -18,7 +18,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
   const [userContribution, setUserContribution] = useState<string>('0');
 
   const progress = (parseFloat(campaign.currentAmount) / parseFloat(campaign.targetAmount)) * 100;
-  const isFinished = campaign.isFinished || false;
+  // const isFinished = campaign.isFinished || false;
 
   // Fetch user's contribution to this campaign
   useEffect(() => {
