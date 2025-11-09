@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useAccount } from 'wagmi';
 import { useWeb3 } from '../contexts/Web3Context';
 import CampaignCard from './CampaignCard';
 import type { Campaign } from '../types/web3';

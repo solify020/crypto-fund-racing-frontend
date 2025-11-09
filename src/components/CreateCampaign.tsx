@@ -4,7 +4,7 @@ import { useWeb3 } from '../contexts/Web3Context';
 
 const CreateCampaign: React.FC = () => {
   const { isConnected } = useAccount();
-  const { walletState, contractService } = useWeb3();
+  const { contractService } = useWeb3();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
