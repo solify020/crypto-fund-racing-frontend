@@ -24,8 +24,8 @@ const Campaigns: React.FC = () => {
         const campaignPromises = poolAddresses.map(async (address) => {
           const poolDetails = await contractService.getPoolDetails(address);
 
-          const currentTime = Date.now();
-          const isActive = poolDetails.deadline.getTime() > currentTime;
+          // const currentTime = Date.now();
+          // const isActive = poolDetails.deadline.getTime() > currentTime;
 
           return {
             id: address.slice(-8), // Use last 8 characters of address as ID
@@ -36,7 +36,7 @@ const Campaigns: React.FC = () => {
             targetAmount: poolDetails.goal,
             currentAmount: poolDetails.totalContributed,
             deadline: poolDetails.deadline,
-            isActive,
+            isActive: !poolDetails.isFinished,
             isFinished: poolDetails.isFinished,
             socialLink: poolDetails.socialLink || undefined
           } as Campaign;

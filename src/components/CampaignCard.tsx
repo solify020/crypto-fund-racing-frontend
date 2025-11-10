@@ -62,7 +62,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
       <div className="relative h-32 bg-gradient-to-br from-primary-gray-dark to-primary-gray overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary-gray/20 to-transparent"></div>
         <div className="absolute top-4 right-4">
-          {campaign.isActive ? (
+          {!campaign.isActive ? (
             <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-primary-white text-primary-black shadow-lg">Active</span>
           ) : (
             <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-primary-gray text-primary-white shadow-lg">Ended</span>
@@ -74,7 +74,9 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
           </div>
           {campaign.socialLink && (
             <div className="text-primary-white/60 text-xs mt-1 truncate max-w-32">
-              {campaign.socialLink}
+              <a href={campaign.socialLink}>
+                {campaign.socialLink}
+              </a>
             </div>
           )}
         </div>
@@ -82,7 +84,6 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
 
       <div className="p-6">
         <h3 className="text-xl font-bold text-primary-white mb-3 leading-tight">{campaign.title}</h3>
-        <p className="text-primary-gray-light leading-relaxed mb-4 line-clamp-3">{campaign.description}</p>
 
         <div className="flex items-center gap-2 mb-6 p-3 bg-primary-gray-dark rounded-lg border border-primary-gray">
           <span className="text-sm text-primary-gray-light">Creator:</span>
