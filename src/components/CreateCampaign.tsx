@@ -99,11 +99,11 @@ const CreateCampaign: React.FC = () => {
             <h2 className="text-2xl font-bold mb-6 text-white">Project Details</h2>
 
             <div className="mb-6">
-              <label htmlFor="title" className="block mb-2 font-semibold text-white">Donation Purpose</label>
+              <label htmlFor="purpose" className="block mb-2 font-semibold text-white">Donation Purpose</label>
               <input
                 type="text"
-                id="title"
-                name="title"
+                id="purpose"
+                name="purpose"
                 required
                 value={formData.purpose}
                 onChange={handleInputChange}
