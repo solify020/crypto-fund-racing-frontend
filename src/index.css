@@ -21,7 +21,7 @@ body {
   }
 
   .btn {
-    @apply px-4 py-2 bg-accent-red text-primary-white rounded-md hover:bg-accent-red-dark transition-colors duration-300;
+    @apply px-4 py-2 bg-primary-white text-primary-black rounded-md hover:bg-primary-gray transition-colors duration-300;
   }
 
   .btn-secondary {

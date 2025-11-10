@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Web3Provider } from './contexts/Web3Context';
 import Header from './components/Header';
-import Hero from './components/Hero';
 import Campaigns from './components/Campaigns';
 import CreateCampaign from './components/CreateCampaign';
 import Footer from './components/Footer';
@@ -16,7 +15,7 @@ function App() {
           <Header />
           <main className="flex-1">
             <Routes>
-              <Route path="/" element={<Hero />} />
+              <Route path="/" element={<Campaigns />} />
               <Route path="/campaigns" element={<Campaigns />} />
               <Route path="/create-campaign" element={<CreateCampaign />} />
               <Route path="/how-it-works" element={<HowItWorks />} />
