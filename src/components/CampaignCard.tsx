@@ -53,9 +53,9 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
     }
   };
 
-  const formatAddress = (address: string) => {
-    return `${address.slice(0, 6)}...${address.slice(-4)}`;
-  };
+  // const formatAddress = (address: string) => {
+  //   return `${address.slice(0, 6)}...${address.slice(-4)}`;
+  // };
 
   return (
     <div className="bg-primary-gray-dark rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-white/15 border border-primary-gray hover:border-primary-white">
