@@ -69,8 +69,8 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
           )}
         </div>
         <div className="absolute bottom-4 left-4">
-          <div className="text-white text-sm font-mono">
-            {campaign.address.slice(0, 6)}...{campaign.address.slice(-4)}
+          <div className="text-white text-xl font-mono">
+            {campaign.title}
           </div>
           {campaign.socialLink && (
             <div className="text-white/80 text-xs mt-1 truncate max-w-32">
@@ -83,7 +83,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
       </div>
 
       <div className="p-6">
-        <h3 className="text-xl font-bold text-white mb-3 leading-tight">{campaign.title}</h3>
+        <h3 className="text-xl font-bold text-white mb-3 leading-tight">Funding Progress</h3>
 
         <div className="mb-6">
           <div className="w-full h-2 bg-white/50 rounded-full overflow-hidden mb-3 border border-white/30">
