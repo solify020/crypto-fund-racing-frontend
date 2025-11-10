@@ -58,23 +58,23 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
   // };
 
   return (
-    <div className="bg-primary-gray-dark rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-white/15 border border-primary-gray hover:border-primary-white">
-      <div className="relative h-32 bg-gradient-to-br from-primary-gray-dark to-primary-gray overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-gray/20 to-transparent"></div>
+    <div className="bg-black rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-white/30 border-2 border-white">
+      <div className="relative h-32 bg-black overflow-hidden">
+        <div className="absolute inset-0 bg-white/5"></div>
         <div className="absolute top-4 right-4">
           {campaign.isActive ? (
-            <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-primary-white text-primary-black shadow-lg">Active</span>
+            <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-white text-black shadow-lg">Active</span>
           ) : (
-            <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-primary-gray text-primary-white shadow-lg">Ended</span>
+            <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-black text-white shadow-lg border border-white">Ended</span>
           )}
         </div>
         <div className="absolute bottom-4 left-4">
-          <div className="text-primary-white/80 text-sm font-mono">
+          <div className="text-white text-sm font-mono">
             {campaign.address.slice(0, 6)}...{campaign.address.slice(-4)}
           </div>
           {campaign.socialLink && (
-            <div className="text-primary-white/60 text-xs mt-1 truncate max-w-32">
-              <a href={campaign.socialLink}>
+            <div className="text-white/80 text-xs mt-1 truncate max-w-32">
+              <a href={campaign.socialLink} className="text-white hover:text-white/80">
                 {campaign.socialLink}
               </a>
             </div>
@@ -83,27 +83,21 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
       </div>
 
       <div className="p-6">
-        <h3 className="text-xl font-bold text-primary-white mb-3 leading-tight">{campaign.title}</h3>
-
-        {/* <div className="flex items-center gap-2 mb-6 p-3 bg-primary-gray-dark rounded-lg border border-primary-gray">
-          <span className="text-sm text-primary-gray-light">Creator:</span>
-          <span className="font-mono text-sm text-primary-white font-semibold">{formatAddress(campaign.creator)}</span>
-        </div> */}
+        <h3 className="text-xl font-bold text-white mb-3 leading-tight">{campaign.title}</h3>
 
         <div className="mb-6">
-          <div className="w-full h-2 bg-primary-gray rounded-full overflow-hidden mb-3">
+          <div className="w-full h-2 bg-white/50 rounded-full overflow-hidden mb-3 border border-white/30">
             <div
-              className="h-full bg-primary-white rounded-full transition-all duration-300 relative"
+              className="h-full bg-white rounded-full transition-all duration-300"
               style={{ width: `${Math.min(progress, 100)}%` }}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-black/30 to-transparent animate-pulse"></div>
             </div>
           </div>
           <div className="flex justify-between items-center mb-2">
-            <span className="text-lg font-bold text-primary-white">{campaign.currentAmount} ETH</span>
-            <span className="text-sm text-primary-gray-light">of {campaign.targetAmount} ETH</span>
+            <span className="text-lg font-bold text-white">{campaign.currentAmount} ETH</span>
+            <span className="text-sm text-white">of {campaign.targetAmount} ETH</span>
           </div>
-          <div className="text-center text-sm font-semibold text-primary-white">{progress.toFixed(1)}% funded</div>
+          <div className="text-center text-sm font-semibold text-white">{progress.toFixed(1)}% funded</div>
         </div>
 
         <div className="mb-6">
@@ -111,19 +105,19 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
             campaign.isActive ? (
               <CountdownTimer deadline={campaign.deadline} className="mb-4" />
             ) : (
-              <div className="text-center text-xl font-semibold text-primary-white">Ended!</div>
+              <div className="text-center text-xl font-semibold text-white">Ended!</div>
             )
           }
           <div className="flex justify-center">
-            <div className="text-sm text-primary-gray-light bg-primary-gray-dark px-4 py-2 rounded-lg border border-primary-gray">
+            <div className="text-sm text-white bg-black px-4 py-2 rounded-lg border border-white">
               🎯 Goal: {campaign.targetAmount} ETH
             </div>
           </div>
         </div>
 
         {parseFloat(userContribution) > 0 && (
-          <div className="mb-4 p-3 bg-primary-white/10 rounded-lg border border-primary-white/20">
-            <div className="text-sm text-primary-white font-semibold">
+          <div className="mb-4 p-3 bg-white/10 rounded-lg border border-white/20">
+            <div className="text-sm text-white font-semibold">
               Your contribution: {userContribution} ETH
             </div>
           </div>
@@ -136,7 +130,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
               {!showDonateForm ? (
                 <div className="space-y-3">
                   <button
-                    className="w-full py-3 bg-primary-white text-primary-black rounded-xl font-semibold cursor-pointer transition-all duration-300 shadow-lg shadow-white/30 hover:-translate-y-1 hover:shadow-xl hover:shadow-white/40 disabled:bg-primary-gray disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+                    className="w-full py-3 bg-white text-black rounded-xl font-semibold cursor-pointer transition-all duration-300 shadow-lg shadow-white/30 hover:-translate-y-1 hover:shadow-xl hover:shadow-white/40 disabled:bg-black disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none disabled:text-white disabled:border disabled:border-white"
                     onClick={() => setShowDonateForm(true)}
                     disabled={!campaign.isActive}
                   >
@@ -146,7 +140,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
                   {campaign.creator.toLowerCase() === walletState.account?.toLowerCase() && !campaign.isFinished && (
                     <div className="flex gap-2">
                       <button
-                        className="flex-1 py-2 bg-primary-white text-primary-black rounded-lg font-semibold cursor-pointer transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex-1 py-2 bg-white text-black rounded-lg font-semibold cursor-pointer transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
                         onClick={async () => {
                           if (!contractService) return;
                           try {
@@ -154,7 +148,6 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
                             if (canWithdraw) {
                               const txHash = await contractService.withdrawFromPool(campaign.address);
                               alert(`Withdrawal successful! Pool is now ended. Transaction hash: ${txHash}`);
-                              // Refresh the page to update the campaign status
                               window.location.reload();
                             } else {
                               alert('Cannot withdraw yet. Goal not met.');
@@ -169,7 +162,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
                       </button>
 
                       <button
-                        className="flex-1 py-2 bg-primary-gray text-primary-white rounded-lg font-semibold cursor-pointer transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex-1 py-2 bg-black text-white rounded-lg font-semibold cursor-pointer transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed border border-white"
                         onClick={async () => {
                           if (!contractService) return;
                           try {
@@ -177,7 +170,6 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
                             if (canRefund) {
                               const txHash = await contractService.refundFromPool(campaign.address);
                               alert(`Refund successful! Pool is now ended. Transaction hash: ${txHash}`);
-                              // Refresh the page to update the campaign status
                               window.location.reload();
                             } else {
                               alert('Cannot refund yet. Campaign may still be active or goal was met.');
@@ -203,22 +195,22 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
                       placeholder="Amount in ETH"
                       value={donationAmount}
                       onChange={(e) => setDonationAmount(e.target.value)}
-                      className="w-full py-3 px-4 pr-16 bg-primary-gray-dark border-2 border-primary-gray rounded-xl text-primary-white placeholder-primary-gray-light focus:outline-none focus:border-primary-white focus:ring-2 focus:ring-white/10 transition-colors"
+                      className="w-full py-3 px-4 pr-16 bg-black border-2 border-white rounded-xl text-white placeholder-white focus:outline-none focus:bg-white focus:text-black focus:ring-2 focus:ring-white/10 transition-colors"
                       required
                     />
-                    <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-primary-gray-light font-semibold pointer-events-none">ETH</span>
+                    <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white font-semibold pointer-events-none">ETH</span>
                   </div>
                   <div className="flex gap-3">
                     <button
                       type="submit"
-                      className="flex-1 py-3 bg-primary-white text-primary-black rounded-xl font-semibold cursor-pointer transition-all duration-300 shadow-lg shadow-white/30 hover:-translate-y-1 hover:shadow-xl hover:shadow-white/40 disabled:bg-primary-gray disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+                      className="flex-1 py-3 bg-white text-black rounded-xl font-semibold cursor-pointer transition-all duration-300 shadow-lg shadow-white/30 hover:-translate-y-1 hover:shadow-xl hover:shadow-white/40 disabled:bg-black disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none disabled:text-white disabled:border disabled:border-white"
                       disabled={isLoading || !donationAmount}
                     >
                       {isLoading ? 'Processing...' : 'Confirm Donation'}
                     </button>
                     <button
                       type="button"
-                      className="px-6 py-3 bg-transparent text-primary-gray-light border-2 border-primary-gray rounded-xl font-semibold cursor-pointer transition-all duration-300 hover:bg-primary-gray-dark hover:border-primary-gray"
+                      className="px-6 py-3 bg-transparent text-white border-2 border-white rounded-xl font-semibold cursor-pointer transition-all duration-300 hover:bg-white hover:text-black"
                       onClick={() => {
                         setShowDonateForm(false);
                         setDonationAmount('');
@@ -231,7 +223,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
               )}
             </>
           ) : (
-            <button className="w-full py-3 bg-primary-gray text-primary-gray-light rounded-xl font-semibold cursor-not-allowed" disabled>
+            <button className="w-full py-3 bg-black text-white rounded-xl font-semibold cursor-not-allowed border-2 border-white" disabled>
               Connect Wallet to Fund
             </button>
           )}

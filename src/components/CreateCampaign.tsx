@@ -74,7 +74,7 @@ const CreateCampaign: React.FC = () => {
 
   if (!isConnected) {
     return (
-      <section className="py-16 min-h-screen bg-gradient-to-br from-primary-black to-black/95">
+      <section className="py-16 min-h-screen bg-black">
         <div className="container">
           <div className="text-center py-16">
             <h1 className="text-4xl font-bold mb-6 text-white">Create a Campaign</h1>
@@ -87,11 +87,11 @@ const CreateCampaign: React.FC = () => {
   }
 
   return (
-    <section className="py-16 min-h-screen bg-gradient-to-br from-primary-black to-black/95">
+    <section className="py-16 min-h-screen bg-black">
       <div className="container">
         <div className="text-center mb-16">
-          <h1 className="text-5xl font-extrabold mb-4 text-gradient">Create Funding Campaign</h1>
-          <p className="text-xl text-primary-gray-light max-w-2xl mx-auto">Launch your crypto project and get funded by the community</p>
+          <h1 className="text-5xl font-extrabold mb-4 text-white">Create Funding Campaign</h1>
+          <p className="text-xl text-white max-w-2xl mx-auto">Launch your crypto project and get funded by the community</p>
         </div>
 
         <form className="max-w-4xl mx-auto bg-white/5 rounded-2xl p-8 border border-white/10" onSubmit={handleSubmit}>
@@ -164,7 +164,7 @@ const CreateCampaign: React.FC = () => {
           <div className="text-center pt-8 border-t border-white/10">
             <button
               type="submit"
-              className="bg-gradient-to-r from-accent-red to-accent-red-dark text-white border-none py-4 px-8 rounded-xl text-lg font-semibold cursor-pointer transition-all duration-300 min-w-48 hover:-translate-y-1 hover:shadow-lg hover:shadow-red-500/30 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
+              className="bg-white text-black border-none py-4 px-8 rounded-xl text-lg font-semibold cursor-pointer transition-all duration-300 min-w-48 hover:-translate-y-1 hover:shadow-lg hover:shadow-white/30 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none disabled:bg-black disabled:text-white disabled:border disabled:border-white"
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Creating Campaign...' : 'Create Campaign'}

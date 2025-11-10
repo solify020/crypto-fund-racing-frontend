@@ -6,8 +6,8 @@ const Footer: React.FC = () => {
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
           <div className="lg:col-span-2">
-            <h3 className="text-2xl font-bold mb-4 text-gradient">🚀 CryptoFund Racing</h3>
-            <p className="text-primary-gray-light leading-relaxed mb-6 text-sm">
+            <h3 className="text-2xl font-bold mb-4 text-white">🚀 CryptoFund Racing</h3>
+            <p className="text-white leading-relaxed mb-6 text-sm">
               Accelerating innovation through decentralized funding.
               Join the future of crypto-powered project financing.
             </p>

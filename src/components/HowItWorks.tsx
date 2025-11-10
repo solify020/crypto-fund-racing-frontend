@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const HowItWorks: React.FC = () => {
   const steps = [
@@ -38,16 +39,16 @@ const HowItWorks: React.FC = () => {
     <section className="min-h-screen bg-primary-black text-white py-20">
       <div className="container">
         <div className="text-center mb-16">
-          <h1 className="text-5xl font-extrabold mb-4 text-gradient">How It Works</h1>
-          <p className="text-xl text-primary-gray-light max-w-2xl mx-auto leading-relaxed">
+          <h1 className="text-5xl font-extrabold mb-4 text-white">How It Works</h1>
+          <p className="text-xl text-white max-w-2xl mx-auto leading-relaxed">
             Get started with crypto fund racing in just 5 simple steps
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 mb-20">
           {steps.map((step) => (
-            <div key={step.step} className="relative bg-primary-gray-dark rounded-2xl p-6 text-center border border-primary-gray transition-all duration-300 hover:-translate-y-2 hover:border-accent-red hover:shadow-xl hover:shadow-red-500/10">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-accent-red text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-lg shadow-red-500/30">{step.step}</div>
+            <div key={step.step} className="relative bg-primary-gray-dark rounded-2xl p-6 text-center border border-primary-gray transition-all duration-300 hover:-translate-y-2 hover:border-accent-red hover:shadow-xl">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-accent-red text-black w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-lg">{step.step}</div>
               <div className="text-5xl mb-4 mt-4">{step.icon}</div>
               <h3 className="text-lg font-bold mb-3 text-white">{step.title}</h3>
               <p className="text-primary-gray-light leading-relaxed text-sm">{step.description}</p>
@@ -84,7 +85,9 @@ const HowItWorks: React.FC = () => {
         <div className="text-center bg-primary-gray-dark rounded-2xl p-12 border border-primary-gray">
           <h2 className="text-3xl font-bold mb-4 text-white">Ready to Start Racing?</h2>
           <p className="text-xl text-primary-gray-light mb-8 max-w-2xl mx-auto">Join thousands of investors already profiting from crypto fund racing</p>
-          <button className="bg-accent-red text-white border-none py-4 px-8 rounded-full text-lg font-semibold cursor-pointer transition-all duration-300 shadow-lg shadow-red-500/30 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-500/40 hover:bg-accent-red-dark">Get Started Now</button>
+          <Link to='/create-campaign'>
+            <button className="bg-accent-red text-black border-none py-4 px-8 rounded-full text-lg font-semibold cursor-pointer transition-all duration-300 shadow-lg hover:-translate-y-1 hover:shadow-xl hover:bg-accent-red-dark">Get Started Now</button>
+          </Link>
         </div>
       </div>
     </section>

@@ -134,26 +134,26 @@ const CampaignsSection: React.FC = () => {
     <section id="campaigns" className="py-20 bg-primary-black border-t-2 border-accent-red">
       <div className="container">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-extrabold text-white mb-4 text-gradient">Active Funding Campaigns</h2>
-          <p className="text-xl text-primary-gray-light max-w-2xl mx-auto leading-relaxed">Discover and support innovative crypto projects that are shaping the future</p>
+          <h2 className="text-4xl font-extrabold text-white mb-4 text-white">Active Funding Campaigns</h2>
+          <p className="text-xl text-white max-w-2xl mx-auto leading-relaxed">Discover and support innovative crypto projects that are shaping the future</p>
         </div>
 
         <div className="flex flex-col lg:flex-row justify-between items-center mb-8 gap-4">
-          <div className="flex gap-2 bg-primary-gray-dark p-2 rounded-xl shadow-lg border border-primary-gray">
+          <div className="flex gap-2 bg-black p-2 rounded-xl shadow-lg border-2 border-white">
             <button
-              className={`px-6 py-3 rounded-lg font-semibold cursor-pointer transition-all duration-300 ${filter === 'all' ? 'bg-accent-red text-white shadow-lg shadow-red-500/30' : 'bg-transparent text-gray-400 hover:bg-primary-gray hover:text-white'}`}
+              className={`px-6 py-3 rounded-lg font-semibold cursor-pointer transition-all duration-300 ${filter === 'all' ? 'bg-white text-black' : 'bg-transparent text-white hover:bg-white hover:text-black'}`}
               onClick={() => setFilter('all')}
             >
               All Campaigns
             </button>
             <button
-              className={`px-6 py-3 rounded-lg font-semibold cursor-pointer transition-all duration-300 ${filter === 'active' ? 'bg-accent-red text-white shadow-lg shadow-red-500/30' : 'bg-transparent text-gray-400 hover:bg-primary-gray hover:text-white'}`}
+              className={`px-6 py-3 rounded-lg font-semibold cursor-pointer transition-all duration-300 ${filter === 'active' ? 'bg-white text-black' : 'bg-transparent text-white hover:bg-white hover:text-black'}`}
               onClick={() => setFilter('active')}
             >
               Active
             </button>
             <button
-              className={`px-6 py-3 rounded-lg font-semibold cursor-pointer transition-all duration-300 ${filter === 'ended' ? 'bg-accent-red text-white shadow-lg shadow-red-500/30' : 'bg-transparent text-gray-400 hover:bg-primary-gray hover:text-white'}`}
+              className={`px-6 py-3 rounded-lg font-semibold cursor-pointer transition-all duration-300 ${filter === 'ended' ? 'bg-white text-black' : 'bg-transparent text-white hover:bg-white hover:text-black'}`}
               onClick={() => setFilter('ended')}
             >
               Ended
@@ -164,7 +164,7 @@ const CampaignsSection: React.FC = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="px-4 py-3 border-2 border-primary-gray rounded-lg bg-primary-gray-dark text-white font-medium cursor-pointer transition-colors duration-200 focus:outline-none focus:border-accent-red"
+              className="px-4 py-3 border-2 border-white rounded-lg bg-black text-white font-medium cursor-pointer transition-colors duration-200 focus:outline-none focus:border-white focus:bg-white focus:text-black"
             >
               <option value="newest">Newest First</option>
               <option value="progress">Most Funded</option>
@@ -184,9 +184,9 @@ const CampaignsSection: React.FC = () => {
         </div>
 
         {sortedCampaigns.length === 0 && (
-          <div className="text-center py-16 bg-white rounded-xl shadow-lg">
-            <h3 className="text-2xl text-gray-700 mb-2">No campaigns found</h3>
-            <p className="text-gray-500">Try adjusting your filters to see more campaigns.</p>
+          <div className="text-center py-16 bg-white rounded-xl shadow-lg border-2 border-black">
+            <h3 className="text-2xl text-black mb-2">No campaigns found</h3>
+            <p className="text-black">Try adjusting your filters to see more campaigns.</p>
           </div>
         )}
       </div>

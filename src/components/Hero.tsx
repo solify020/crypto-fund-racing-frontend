@@ -16,13 +16,13 @@ const Hero: React.FC = () => {
   return (
     <section className="min-h-screen relative flex items-center overflow-hidden bg-primary-black border-b-4 border-accent-red">
       <div className="absolute top-0 left-0 w-full h-full z-10">
-        <div className="absolute w-full h-full bg-gradient-to-br from-primary-gray-light/20 via-transparent to-accent-red/10 bg-[size:200px_200px] animate-pulse"></div>
+        <div className="absolute w-full h-full bg-white/5"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-20">
         <div className="text-white">
           <h1 className="text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
-            <span className="text-gradient">Accelerate Innovation</span>
+            <span className="text-white">Accelerate Innovation</span>
             <br />
             with Crypto Funding
           </h1>

@@ -109,26 +109,26 @@ const Campaigns: React.FC = () => {
     <section className="py-16 min-h-screen">
       <div className="container">
         <div className="text-center mb-16">
-          <h1 className="text-5xl font-extrabold mb-4 text-gradient">Funding Campaigns</h1>
-          <p className="text-xl text-primary-gray-light max-w-2xl mx-auto">Discover and support innovative crypto projects that are shaping the future</p>
+          <h1 className="text-5xl font-extrabold mb-4 text-white">Funding Campaigns</h1>
+          <p className="text-xl text-white max-w-2xl mx-auto">Discover and support innovative crypto projects that are shaping the future</p>
         </div>
 
-        <div className="flex flex-col lg:flex-row justify-between items-center mb-12 p-6 bg-white/5 rounded-xl border border-white/10">
+        <div className="flex flex-col lg:flex-row justify-between items-center mb-12 p-6 bg-black rounded-xl border-2 border-white">
           <div className="flex gap-2 mb-4 lg:mb-0">
             <button
-              className={`px-4 py-2 border border-primary-gray text-primary-gray-light rounded-lg cursor-pointer transition-all duration-300 font-medium hover:border-accent-red hover:text-white ${filter === 'all' ? 'bg-accent-red border-accent-red text-white' : ''}`}
+              className={`px-4 py-2 border-2 border-white rounded-lg cursor-pointer transition-all duration-300 font-medium hover:bg-white hover:text-black ${filter === 'all' ? 'bg-white text-black' : 'text-white bg-black'}`}
               onClick={() => setFilter('all')}
             >
               All Campaigns
             </button>
             <button
-              className={`px-4 py-2 border border-primary-gray text-primary-gray-light rounded-lg cursor-pointer transition-all duration-300 font-medium hover:border-accent-red hover:text-white ${filter === 'active' ? 'bg-accent-red border-accent-red text-white' : ''}`}
+              className={`px-4 py-2 border-2 border-white rounded-lg cursor-pointer transition-all duration-300 font-medium hover:bg-white hover:text-black ${filter === 'active' ? 'bg-white text-black' : 'text-white bg-black'}`}
               onClick={() => setFilter('active')}
             >
               Active
             </button>
             <button
-              className={`px-4 py-2 border border-primary-gray text-primary-gray-light rounded-lg cursor-pointer transition-all duration-300 font-medium hover:border-accent-red hover:text-white ${filter === 'ended' ? 'bg-accent-red border-accent-red text-white' : ''}`}
+              className={`px-4 py-2 border-2 border-white rounded-lg cursor-pointer transition-all duration-300 font-medium hover:bg-white hover:text-black ${filter === 'ended' ? 'bg-white text-black' : 'text-white bg-black'}`}
               onClick={() => setFilter('ended')}
             >
               Ended
@@ -139,7 +139,7 @@ const Campaigns: React.FC = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="px-4 py-2 bg-white/5 border border-primary-gray text-white rounded-lg cursor-pointer transition-colors duration-200 focus:outline-none focus:border-accent-red"
+              className="px-4 py-2 bg-black border-2 border-white text-white rounded-lg cursor-pointer transition-colors duration-200 focus:outline-none focus:bg-white focus:text-black"
             >
               <option value="newest">Newest First</option>
               <option value="progress">Most Funded</option>
@@ -150,8 +150,8 @@ const Campaigns: React.FC = () => {
 
         {loading ? (
           <div className="text-center py-16">
-            <div className="inline-block w-8 h-8 border-4 border-accent-red border-t-transparent rounded-full animate-spin mb-4"></div>
-            <p className="text-primary-gray-light">Loading campaigns...</p>
+            <div className="inline-block w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p className="text-primary-white">Loading campaigns...</p>
           </div>
         ) : (
           <>
@@ -166,9 +166,9 @@ const Campaigns: React.FC = () => {
             </div>
 
             {sortedCampaigns.length === 0 && (
-              <div className="text-center py-16">
-                <h3 className="text-2xl text-primary-gray-light mb-4">No campaigns found</h3>
-                <p className="text-primary-gray">Try adjusting your filters to see more campaigns.</p>
+              <div className="text-center py-16 bg-white rounded-xl border-2 border-black">
+                <h3 className="text-2xl text-black mb-4">No campaigns found</h3>
+                <p className="text-black">Try adjusting your filters to see more campaigns.</p>
               </div>
             )}
           </>
