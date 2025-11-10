@@ -85,10 +85,10 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
       <div className="p-6">
         <h3 className="text-xl font-bold text-primary-white mb-3 leading-tight">{campaign.title}</h3>
 
-        <div className="flex items-center gap-2 mb-6 p-3 bg-primary-gray-dark rounded-lg border border-primary-gray">
+        {/* <div className="flex items-center gap-2 mb-6 p-3 bg-primary-gray-dark rounded-lg border border-primary-gray">
           <span className="text-sm text-primary-gray-light">Creator:</span>
           <span className="font-mono text-sm text-primary-white font-semibold">{formatAddress(campaign.creator)}</span>
-        </div>
+        </div> */}
 
         <div className="mb-6">
           <div className="w-full h-2 bg-primary-gray rounded-full overflow-hidden mb-3">
