@@ -107,7 +107,13 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
         </div>
 
         <div className="mb-6">
-          <CountdownTimer deadline={campaign.deadline} className="mb-4" />
+          {
+            campaign.isActive ? (
+              <CountdownTimer deadline={campaign.deadline} className="mb-4" />
+            ) : (
+              <div className="text-center text-xl font-semibold text-primary-white">Ended!</div>
+            )
+          }
           <div className="flex justify-center">
             <div className="text-sm text-primary-gray-light bg-primary-gray-dark px-4 py-2 rounded-lg border border-primary-gray">
               🎯 Goal: {campaign.targetAmount} ETH
