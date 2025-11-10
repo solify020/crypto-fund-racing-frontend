@@ -67,7 +67,7 @@ const Footer: React.FC = () => {
             </ul>
           </div>
         </div>
-
+{/* 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-8 border-t border-primary-gray border-b border-primary-gray mb-8">
           <div className="text-center p-4 bg-primary-gray-dark rounded-xl border border-primary-gray">
             <span className="block text-2xl font-bold text-accent-red mb-1">$2.5M+</span>
@@ -85,7 +85,7 @@ const Footer: React.FC = () => {
             <span className="block text-2xl font-bold text-accent-red mb-1">98%</span>
             <span className="text-xs text-primary-gray-light uppercase tracking-wide">Success Rate</span>
           </div>
-        </div>
+        </div> */}
 
         <div className="border-t border-primary-gray pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
@@ -95,7 +95,7 @@ const Footer: React.FC = () => {
             <div className="flex items-center">
               <span className="flex items-center gap-2 px-4 py-2 bg-primary-gray-dark rounded-full text-sm font-medium text-primary-gray-light border border-primary-gray">
                 <span className="w-2 h-2 bg-accent-red rounded-full animate-pulse"></span>
-                Ethereum Network
+                Base Mainnet
               </span>
             </div>
           </div>
