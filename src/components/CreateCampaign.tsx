@@ -6,16 +6,11 @@ const CreateCampaign: React.FC = () => {
   const { isConnected } = useAccount();
   const { contractService } = useWeb3();
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
+    purpose: '',
     targetAmount: '',
     deadline: '',
-    durationInHours: '',
+    durationInDays: '',
     socialLink: '',
-    twitter: '',
-    discord: '',
-    telegram: '',
-    website: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -35,7 +30,7 @@ const CreateCampaign: React.FC = () => {
       return;
     }
 
-    if (!formData.targetAmount || !formData.durationInHours) {
+    if (!formData.targetAmount || !formData.durationInDays) {
       alert('Please fill in the target amount and duration');
       return;
     }
@@ -46,8 +41,8 @@ const CreateCampaign: React.FC = () => {
       return;
     }
 
-    const durationInHours = parseInt(formData.durationInHours);
-    if (isNaN(durationInHours) || durationInHours <= 0) {
+    const durationInDays = parseInt(formData.durationInDays);
+    if (isNaN(durationInDays) || durationInDays <= 0) {
       alert('Please enter a valid duration in hours');
       return;
     }
@@ -57,22 +52,17 @@ const CreateCampaign: React.FC = () => {
     try {
       console.log('Creating campaign:', formData);
 
-      const txHash = await contractService.createPool(formData.targetAmount, durationInHours, formData.socialLink);
+      const txHash = await contractService.createPool(formData.targetAmount, durationInDays * 24, formData.socialLink);
 
       alert(`Campaign created successfully! Transaction hash: ${txHash}`);
 
       // Reset form
       setFormData({
-        title: '',
-        description: '',
+        purpose: '',
         targetAmount: '',
         deadline: '',
-        durationInHours: '',
+        durationInDays: '',
         socialLink: '',
-        twitter: '',
-        discord: '',
-        telegram: '',
-        website: ''
       });
     } catch (error) {
       console.error('Error creating campaign:', error);
@@ -109,28 +99,16 @@ const CreateCampaign: React.FC = () => {
             <h2 className="text-2xl font-bold mb-6 text-white">Project Details</h2>
 
             <div className="mb-6">
-              <label htmlFor="title" className="block mb-2 font-semibold text-white">Pool Name (Optional)</label>
+              <label htmlFor="title" className="block mb-2 font-semibold text-white">Donation Purpose</label>
               <input
                 type="text"
                 id="title"
                 name="title"
-                value={formData.title}
+                required
+                value={formData.purpose}
                 onChange={handleInputChange}
                 placeholder="Optional name for your funding pool"
                 className="w-full p-4 bg-white/5 border border-primary-gray rounded-lg text-white placeholder-primary-gray-light focus:outline-none focus:border-accent-red focus:ring-2 focus:ring-red-500/10 transition-colors"
-              />
-            </div>
-
-            <div className="mb-6">
-              <label htmlFor="description" className="block mb-2 font-semibold text-white">Description (Optional)</label>
-              <textarea
-                id="description"
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                placeholder="Optional description for your funding pool..."
-                rows={4}
-                className="w-full p-4 bg-white/5 border border-primary-gray rounded-lg text-white placeholder-primary-gray-light focus:outline-none focus:border-accent-red focus:ring-2 focus:ring-red-500/10 transition-colors resize-vertical min-h-24"
               />
             </div>
 
@@ -141,28 +119,28 @@ const CreateCampaign: React.FC = () => {
                   type="number"
                   id="targetAmount"
                   name="targetAmount"
+                  required
                   value={formData.targetAmount}
                   onChange={handleInputChange}
                   placeholder="100.0"
                   step="0.1"
                   min="0.1"
                   className="w-full p-4 bg-white/5 border border-primary-gray rounded-lg text-white placeholder-primary-gray-light focus:outline-none focus:border-accent-red focus:ring-2 focus:ring-red-500/10 transition-colors"
-                  required
                 />
               </div>
 
               <div>
-                <label htmlFor="durationInHours" className="block mb-2 font-semibold text-white">Duration (Hours) *</label>
+                <label htmlFor="durationInDays" className="block mb-2 font-semibold text-white">Duration (Days) *</label>
                 <input
                   type="number"
-                  id="durationInHours"
-                  name="durationInHours"
-                  value={formData.durationInHours}
+                  id="durationInDays"
+                  name="durationInDays"
+                  required
+                  value={formData.durationInDays}
                   onChange={handleInputChange}
                   placeholder="168"
                   min="1"
                   className="w-full p-4 bg-white/5 border border-primary-gray rounded-lg text-white placeholder-primary-gray-light focus:outline-none focus:border-accent-red focus:ring-2 focus:ring-red-500/10 transition-colors"
-                  required
                 />
               </div>
             </div>
@@ -173,9 +151,10 @@ const CreateCampaign: React.FC = () => {
                 type="url"
                 id="socialLink"
                 name="socialLink"
+                required
                 value={formData.socialLink}
                 onChange={handleInputChange}
-                placeholder="https://twitter.com/yourproject"
+                placeholder="https://x.com/yourproject"
                 className="w-full p-4 bg-white/5 border border-primary-gray rounded-lg text-white placeholder-primary-gray-light focus:outline-none focus:border-accent-red focus:ring-2 focus:ring-red-500/10 transition-colors"
               />
             </div>
