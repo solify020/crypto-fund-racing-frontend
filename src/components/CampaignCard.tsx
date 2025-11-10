@@ -62,7 +62,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
       <div className="relative h-32 bg-gradient-to-br from-primary-gray-dark to-primary-gray overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary-gray/20 to-transparent"></div>
         <div className="absolute top-4 right-4">
-          {!campaign.isActive ? (
+          {campaign.isActive ? (
             <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-primary-white text-primary-black shadow-lg">Active</span>
           ) : (
             <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-primary-gray text-primary-white shadow-lg">Ended</span>
