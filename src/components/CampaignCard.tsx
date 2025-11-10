@@ -133,7 +133,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
                       {campaign.isActive ? 'Fund This Project' : 'Campaign Ended'}
                     </button>
 
-                    {campaign.creator.toLowerCase() === walletState.account?.toLowerCase() && (
+                    {campaign.creator.toLowerCase() === walletState.account?.toLowerCase() && !campaign.isFinished && (
                       <div className="flex gap-2">
                         <button
                           className="flex-1 py-2 bg-green-600 text-white rounded-lg font-semibold cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -143,7 +143,9 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
                               const canWithdraw = await contractService.canWithdraw(campaign.address, campaign.creator);
                               if (canWithdraw) {
                                 const txHash = await contractService.withdrawFromPool(campaign.address);
-                                alert(`Withdrawal successful! Transaction hash: ${txHash}`);
+                                alert(`Withdrawal successful! Pool is now ended. Transaction hash: ${txHash}`);
+                                // Refresh the page to update the campaign status
+                                window.location.reload();
                               } else {
                                 alert('Cannot withdraw yet. Goal not met.');
                               }
@@ -164,7 +166,9 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
                               const canRefund = await contractService.canRefund(campaign.address);
                               if (canRefund) {
                                 const txHash = await contractService.refundFromPool(campaign.address);
-                                alert(`Refund successful! Transaction hash: ${txHash}`);
+                                alert(`Refund successful! Pool is now ended. Transaction hash: ${txHash}`);
+                                // Refresh the page to update the campaign status
+                                window.location.reload();
                               } else {
                                 alert('Cannot refund yet. Campaign may still be active or goal was met.');
                               }
