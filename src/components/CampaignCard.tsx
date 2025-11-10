@@ -77,7 +77,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
                 </div>
               </div>
               <div className="flex flex-col items-end gap-2">
-                {campaign.isActive ? (
+                {!campaign.isFinished ? (
                   <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-gradient-to-r from-green-400 to-green-600 text-white shadow-lg">Active</span>
                 ) : (
                   <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-gradient-to-r from-red-400 to-red-600 text-white shadow-lg">Ended</span>
