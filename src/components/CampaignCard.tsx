@@ -53,10 +53,6 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
     }
   };
 
-  const formatAddress = (address: string) => {
-    return `${address.slice(0, 6)}...${address.slice(-4)}`;
-  };
-
   return (
     <div className="bg-primary-gray-dark rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-white/10 border border-primary-gray hover:border-accent-red">
       <div className="p-6">
@@ -86,7 +82,6 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
                 ) : (
                   <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-gradient-to-r from-red-400 to-red-600 text-white shadow-lg">Ended</span>
                 )}
-                <span className="text-sm text-primary-gray-light">Creator: {formatAddress(campaign.creator)}</span>
               </div>
             </div>
 
