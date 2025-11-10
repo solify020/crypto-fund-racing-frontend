@@ -30,6 +30,7 @@ const Campaigns: React.FC = () => {
           return {
             id: address.slice(-8), // Use last 8 characters of address as ID
             address: poolDetails.address,
+            creator: poolDetails.owner,
             title: poolDetails.purpose || `Funding Pool ${address.slice(-8)}`, // Use purpose as title, fallback to address
             description: `Decentralized funding pool created by ${poolDetails.owner.slice(0, 6)}...${poolDetails.owner.slice(-4)}. Target: ${poolDetails.goal} ETH.`,
             targetAmount: poolDetails.goal,
