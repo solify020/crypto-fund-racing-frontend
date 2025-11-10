@@ -128,9 +128,9 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
                     <button
                       className="w-full py-3 bg-accent-red text-white rounded-xl font-semibold cursor-pointer transition-all duration-300 shadow-lg shadow-red-500/30 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-500/40 hover:bg-accent-red-dark disabled:bg-primary-gray disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
                       onClick={() => setShowDonateForm(true)}
-                      disabled={!campaign.isActive}
+                      disabled={campaign.isFinished}
                     >
-                      {campaign.isActive ? 'Fund This Project' : 'Campaign Ended'}
+                      {!campaign.isFinished ? 'Fund This Project' : 'Campaign Ended'}
                     </button>
 
                     {campaign.creator.toLowerCase() === walletState.account?.toLowerCase() && !campaign.isFinished && (
