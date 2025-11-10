@@ -74,13 +74,13 @@ export class ContractService {
   }
 
   // Main contract methods
-  async createPool(goal: string, durationInHours: number, socialLink: string = ""): Promise<string> {
+  async createPool(goal: string, durationInHours: number, socialLink: string = "", purpose: string = ""): Promise<string> {
     if (!this.cryptoFundRacingContract || !this.signer) {
       throw new Error('Contract not initialized or wallet not connected');
     }
 
     const goalWei = ethers.parseEther(goal);
-    const tx = await this.cryptoFundRacingContract.createPool(goalWei, durationInHours, socialLink);
+    const tx = await this.cryptoFundRacingContract.createPool(goalWei, durationInHours, socialLink, purpose);
     const receipt = await tx.wait();
     return receipt.hash;
   }
@@ -159,6 +159,7 @@ export class ContractService {
       deadline: new Date(Number(poolInfo.deadline) * 1000),
       totalContributed: ethers.formatEther(poolInfo.totalContributed),
       socialLink: poolInfo.socialLink,
+      purpose: poolInfo.purpose,
       isFinished
     };
   }

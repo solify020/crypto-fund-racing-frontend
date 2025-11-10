@@ -52,7 +52,7 @@ const CreateCampaign: React.FC = () => {
     try {
       console.log('Creating campaign:', formData);
 
-      const txHash = await contractService.createPool(formData.targetAmount, durationInDays * 24, formData.socialLink);
+      const txHash = await contractService.createPool(formData.targetAmount, durationInDays * 24, formData.socialLink, formData.purpose);
 
       alert(`Campaign created successfully! Transaction hash: ${txHash}`);
 

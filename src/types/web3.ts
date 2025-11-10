@@ -41,6 +41,7 @@ export interface PoolDetails {
   deadline: Date;
   totalContributed: string;
   socialLink: string;
+  purpose: string;
   isFinished: boolean;
 }
 
