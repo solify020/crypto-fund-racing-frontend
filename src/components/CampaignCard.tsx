@@ -59,7 +59,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
 
   return (
     <div className="bg-black rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-white/30 border-2 border-white">
-      <div className="relative h-32 bg-black overflow-hidden">
+      <div className={`relative h-32 bg-[url('${campaign.imageUrl}')] overflow-hidden`}>
         <div className={`absolute inset-0 bg-[url('${campaign.imageUrl}')]`}></div>
         <div className="absolute top-4 right-4">
           {campaign.isActive ? (
