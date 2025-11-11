@@ -22,7 +22,7 @@ const Header: React.FC = () => {
         </nav>
 
         <div className="wallet-section flex items-center md:order-2">
-          <ConnectButton />
+          <ConnectButton accountStatus="address" />
         </div>
       </div>
     </header>

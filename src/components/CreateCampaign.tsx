@@ -159,9 +159,9 @@ const CreateCampaign: React.FC = () => {
                   name="targetAmount"
                   value={formData.targetAmount}
                   onChange={handleInputChange}
-                  placeholder="100.0"
+                  placeholder="100.0000"
                   step="0.1"
-                  min="0.1"
+                  min="0.0001"
                   className="w-full p-4 bg-white/5 border border-white rounded-lg text-white placeholder-white focus:outline-none focus:border-white focus:ring-2 focus:ring-white/10 transition-colors"
                 />
               </div>
@@ -200,7 +200,7 @@ const CreateCampaign: React.FC = () => {
                 <input
                   type="file"
                   id="projectImage"
-                  accept="image/png"
+                  accept="image/png, image/jpeg, image/webp"
                   onChange={handleFileChange}
                   className="w-full p-4 bg-white/5 border border-white rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-white file:text-black hover:file:bg-gray-200 file:transition-colors cursor-pointer focus:outline-none focus:border-white focus:ring-2 focus:ring-white/10 transition-colors"
                 />
