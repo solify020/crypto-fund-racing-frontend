@@ -59,9 +59,8 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
 
   return (
     <div className="bg-black rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-white/30 border-2 border-white">
-      <div className={`relative h-32 bg-[url('${campaign.imageUrl}')] bg-center bg-cover overflow-hidden`} style={{backgroundImage: `url(${campaign.imageUrl})`}}>
-        <div className={`absolute inset-0 bg-[url('${campaign.imageUrl}')] bg-center bg-cover`}></div>
-        <div className="absolute top-4 right-4"> 
+      <div className={`relative h-32 ${campaign.imageUrl ? 'bg-cover bg-center' : 'bg-white/10'} overflow-hidden`} style={campaign.imageUrl ? {backgroundImage: `url(${campaign.imageUrl})`} : {}}>
+        <div className="absolute top-4 right-4">
           {campaign.isActive ? (
             <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-white text-black shadow-lg">Active</span>
           ) : (
@@ -69,12 +68,12 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
           )}
         </div>
         <div className="absolute bottom-4 left-4">
-          <div className="text-white text-xl font-mono">
+          <div className="text-white text-xl font-mono drop-shadow-lg">
             {campaign.title}
           </div>
           {campaign.socialLink && (
-            <div className="text-white/80 text-xs mt-1 truncate max-w-32">
-              <a href={campaign.socialLink} className="text-white hover:text-white/80">
+            <div className="text-white/90 text-xs mt-1 truncate max-w-32 drop-shadow">
+              <a href={campaign.socialLink} className="text-white hover:text-white/80 underline" target="_blank" rel="noopener noreferrer">
                 {campaign.socialLink}
               </a>
             </div>

@@ -2,17 +2,18 @@ import { ethers } from 'ethers';
 import { CryptoFundRacingABI, PoolABI, CONTRACT_ADDRESSES } from '../abi';
 
 export class ContractService {
-  private provider: ethers.BrowserProvider | null = null;
+  private provider: ethers.Provider | null = null;
   private signer: ethers.JsonRpcSigner | null = null;
   private cryptoFundRacingContract: ethers.Contract | null = null;
   private poolContracts: Map<string, ethers.Contract> = new Map();
 
-  constructor(provider?: ethers.BrowserProvider, signer?: ethers.JsonRpcSigner) {
-    if (provider) this.setProvider(provider);
-    if (signer) this.setSigner(signer);
+  constructor(provider?: ethers.Provider, signer?: ethers.JsonRpcSigner) {
+    this.provider = provider || null;
+    this.signer = signer || null;
+    this.initializeContracts();
   }
 
-  async setProvider(provider: ethers.BrowserProvider) {
+  async setProvider(provider: ethers.Provider) {
     this.provider = provider;
     await this.initializeContracts();
   }
@@ -25,15 +26,19 @@ export class ContractService {
   private async initializeContracts() {
     if (!this.provider) return;
 
-    // Get the appropriate contract address based on network
-    const contractAddress = await this.getContractAddressForNetwork();
+    try {
+      // Get the appropriate contract address based on network
+      const contractAddress = await this.getContractAddressForNetwork();
 
-    // Initialize main contract
-    this.cryptoFundRacingContract = new ethers.Contract(
-      contractAddress,
-      CryptoFundRacingABI.abi,
-      this.signer || this.provider
-    );
+      // Initialize main contract (read-only operations work without signer)
+      this.cryptoFundRacingContract = new ethers.Contract(
+        contractAddress,
+        CryptoFundRacingABI.abi,
+        this.signer || this.provider
+      );
+    } catch (error) {
+      console.warn('Failed to initialize contract:', error);
+    }
   }
 
   private async getContractAddressForNetwork(): Promise<string> {
@@ -203,7 +208,7 @@ export const getContractService = (): ContractService => {
   return contractService;
 };
 
-export const initializeContractService = (provider: ethers.BrowserProvider, signer: ethers.JsonRpcSigner) => {
+export const initializeContractService = (provider: ethers.Provider, signer: ethers.JsonRpcSigner) => {
   if (!contractService) {
     contractService = new ContractService(provider, signer);
   } else {

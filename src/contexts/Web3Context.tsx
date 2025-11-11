@@ -9,7 +9,7 @@ interface Web3ContextType {
   connectWallet: () => Promise<void>;
   disconnectWallet: () => void;
   sendTransaction: (to: string, amount: string) => Promise<string>;
-  provider: ethers.BrowserProvider | null;
+  provider: ethers.Provider | null;
   signer: ethers.JsonRpcSigner | null;
   contractService: ContractService | null;
 }
@@ -41,22 +41,44 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
   const [signer, setSigner] = useState<ethers.JsonRpcSigner | null>(null);
   const [contractService, setContractService] = useState<ContractService | null>(null);
 
+  // Initialize read-only contract service
+  useEffect(() => {
+    const initializeReadOnlyService = async () => {
+      try {
+        // Create a read-only provider for viewing campaigns
+        const readOnlyProvider = new ethers.JsonRpcProvider(
+          'https://base-mainnet.g.alchemy.com/v2/demo' // Use Alchemy demo for base mainnet
+        );
+        
+        // Initialize read-only contract service
+        const readOnlyService = new ContractService(readOnlyProvider);
+        setContractService(readOnlyService);
+      } catch (error) {
+        console.warn('Failed to initialize read-only service:', error);
+        // Fallback to null - campaigns won't load without wallet
+        setContractService(null);
+      }
+    };
+
+    initializeReadOnlyService();
+  }, []);
+
   const updateWalletState = async (ethereum: MetamaskProvider): Promise<void> => {
     try {
       const accounts = await ethereum.request({ method: 'eth_accounts' });
       const chainId = await ethereum.request({ method: 'eth_chainId' });
       
       if (accounts.length > 0) {
-        const provider = new ethers.BrowserProvider(ethereum);
-        const signer = await provider.getSigner();
-        const balance = await provider.getBalance(accounts[0]);
+        const browserProvider = new ethers.BrowserProvider(ethereum);
+        const signer = await browserProvider.getSigner();
+        const balance = await browserProvider.getBalance(accounts[0]);
         
-        setProvider(provider);
+        setProvider(browserProvider);
         setSigner(signer);
 
         // Initialize contract service
-        const service = initializeContractService(provider, signer);
-        await service.setProvider(provider);
+        const service = initializeContractService(browserProvider, signer);
+        await service.setProvider(browserProvider);
         await service.setSigner(signer);
         setContractService(service);
 

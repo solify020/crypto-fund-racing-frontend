@@ -13,41 +13,50 @@ const Campaigns: React.FC = () => {
   // Fetch campaigns from contract
   useEffect(() => {
     const fetchCampaigns = async () => {
+      setLoading(true);
+      
       if (!contractService) {
+        console.log('Contract service not available - campaigns will load when wallet connects');
         setLoading(false);
         return;
       }
 
       try {
         const poolAddresses = await contractService.getAllPools();
+        console.log('Found pools:', poolAddresses.length);
 
-        const campaignPromises = poolAddresses.map(async (address) => {
-          const poolDetails = await contractService.getPoolDetails(address);
+        if (poolAddresses.length === 0) {
+          setCampaigns([]);
+        } else {
+          const campaignPromises = poolAddresses.map(async (address) => {
+            try {
+              const poolDetails = await contractService.getPoolDetails(address);
+              
+              return {
+                id: address.slice(-8), // Use last 8 characters of address as ID
+                address: poolDetails.address,
+                creator: poolDetails.owner,
+                title: poolDetails.purpose || `Funding Pool ${address.slice(-8)}`, // Use purpose as title, fallback to address
+                description: `Decentralized funding pool created by ${poolDetails.owner.slice(0, 6)}...${poolDetails.owner.slice(-4)}. Target: ${poolDetails.goal} ETH.`,
+                targetAmount: poolDetails.goal,
+                currentAmount: poolDetails.totalContributed,
+                deadline: poolDetails.deadline,
+                isActive: !poolDetails.isFinished,
+                isFinished: poolDetails.isFinished,
+                socialLink: poolDetails.socialLink || undefined,
+                imageUrl: poolDetails.imageUrl
+              } as Campaign;
+            } catch (poolError) {
+              console.warn(`Failed to fetch details for pool ${address}:`, poolError);
+              return null; // Skip pools that fail to load
+            }
+          });
 
-          // const currentTime = Date.now();
-          // const isActive = poolDetails.deadline.getTime() > currentTime;
-
-          return {
-            id: address.slice(-8), // Use last 8 characters of address as ID
-            address: poolDetails.address,
-            creator: poolDetails.owner,
-            title: poolDetails.purpose || `Funding Pool ${address.slice(-8)}`, // Use purpose as title, fallback to address
-            description: `Decentralized funding pool created by ${poolDetails.owner.slice(0, 6)}...${poolDetails.owner.slice(-4)}. Target: ${poolDetails.goal} ETH.`,
-            targetAmount: poolDetails.goal,
-            currentAmount: poolDetails.totalContributed,
-            deadline: poolDetails.deadline,
-            isActive: !poolDetails.isFinished,
-            isFinished: poolDetails.isFinished,
-            socialLink: poolDetails.socialLink || undefined,
-            imageUrl: poolDetails.imageUrl
-          } as Campaign;
-        });
-
-        const campaignsData = await Promise.all(campaignPromises);
-        setCampaigns(campaignsData);
+          const campaignsData = (await Promise.all(campaignPromises)).filter(Boolean) as Campaign[];
+          setCampaigns(campaignsData);
+        }
       } catch (error) {
         console.error('Error fetching campaigns:', error);
-        // Fallback to mock data if contract fails
         setCampaigns([]);
       } finally {
         setLoading(false);
@@ -58,15 +67,18 @@ const Campaigns: React.FC = () => {
   }, [contractService]);
 
   const handleDonate = async (campaignId: string, amount: string) => {
+    // Check if user is connected and has contract service
     if (!contractService) {
-      throw new Error('Contract service not available');
+      alert('Please connect your wallet to donate to campaigns.');
+      return;
     }
 
     try {
       // Find the campaign to get its contract address
       const campaign = campaigns.find(c => c.id === campaignId);
       if (!campaign) {
-        throw new Error('Campaign not found');
+        alert('Campaign not found');
+        return;
       }
 
       const txHash = await contractService.contributeToPool(campaign.address, amount);
@@ -82,7 +94,7 @@ const Campaigns: React.FC = () => {
       alert(`Donation successful! Transaction hash: ${txHash}`);
     } catch (error) {
       console.error('Donation failed:', error);
-      throw error;
+      alert(`Donation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
