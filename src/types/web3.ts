@@ -25,6 +25,7 @@ export interface Campaign {
   isActive: boolean;
   isFinished?: boolean;
   image?: string;
+  imageUrl?: string;
   socialLink?: string;
   socialLinks?: {
     twitter?: string;
@@ -42,6 +43,7 @@ export interface PoolDetails {
   totalContributed: string;
   socialLink: string;
   purpose: string;
+  imageUrl: string;
   isFinished: boolean;
 }
 
