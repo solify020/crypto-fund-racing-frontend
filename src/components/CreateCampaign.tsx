@@ -200,7 +200,7 @@ const CreateCampaign: React.FC = () => {
                 <input
                   type="file"
                   id="projectImage"
-                  accept="image/*"
+                  accept="image/png"
                   onChange={handleFileChange}
                   className="w-full p-4 bg-white/5 border border-white rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-white file:text-black hover:file:bg-gray-200 file:transition-colors cursor-pointer focus:outline-none focus:border-white focus:ring-2 focus:ring-white/10 transition-colors"
                 />
