@@ -38,7 +38,8 @@ const Campaigns: React.FC = () => {
             deadline: poolDetails.deadline,
             isActive: !poolDetails.isFinished,
             isFinished: poolDetails.isFinished,
-            socialLink: poolDetails.socialLink || undefined
+            socialLink: poolDetails.socialLink || undefined,
+            imageUrl: poolDetails.imageUrl
           } as Campaign;
         });
 
