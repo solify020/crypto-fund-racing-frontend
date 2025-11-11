@@ -10,11 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@lighthouse-web3/sdk": "^0.4.3",
     "@rainbow-me/rainbowkit": "^2.2.9",
     "@tanstack/react-query": "^5.90.7",
     "@types/react-router-dom": "^5.3.3",
     "ethers": "^6.15.0",
     "ipfs-http-client": "^60.0.1",
+    "nft.storage": "^7.2.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.5",

@@ -195,7 +195,7 @@ const CreateCampaign: React.FC = () => {
             </div>
 
             <div className="mb-6">
-              <label htmlFor="projectImage" className="block mb-2 font-semibold text-white">Project Image (Optional)</label>
+              <label htmlFor="projectImage" className="block mb-2 font-semibold text-white">Project Image</label>
               <div className="flex items-center gap-4">
                 <input
                   type="file"
