@@ -13,7 +13,7 @@ const About: React.FC = () => {
     {
       name: "Nathalie S",
       role: "CEO & Founder",
-      bio: "Former hedge fund manager with 15+ years in traditional finance, now pioneering crypto fund racing.",
+      bio: "Former hedge fund manager with 15+ years in traditional finance, now pioneering Crypto Fun Racing.",
       image: "👨‍💼"
     },
     {
@@ -29,7 +29,7 @@ const About: React.FC = () => {
       <div className="container">
         {/* Hero Section */}
         <div className="text-center mb-20">
-          <h1 className="text-5xl font-extrabold mb-4 text-white">About Crypto Fund Racing</h1>
+          <h1 className="text-5xl font-extrabold mb-4 text-white">About Crypto Fun Racing</h1>
           <p className="text-xl text-white max-w-3xl mx-auto leading-relaxed">
             Revolutionizing investment through blockchain technology and expert fund management
           </p>
@@ -41,7 +41,7 @@ const About: React.FC = () => {
             <h2 className="text-4xl font-bold mb-6 text-white">Our Mission</h2>
             <p className="text-lg text-primary-gray-light leading-relaxed">
               To democratize access to professional-grade investment strategies through blockchain technology,
-              enabling everyday investors to participate in sophisticated crypto fund racing campaigns with
+              enabling everyday investors to participate in sophisticated Crypto Fun Racing campaigns with
               institutional-level management and transparency.
             </p>
           </div>
@@ -69,7 +69,7 @@ const About: React.FC = () => {
             <h2 className="text-4xl font-bold mb-8 text-white">Our Story</h2>
             <div className="space-y-6 text-lg text-primary-gray-light leading-relaxed">
               <p>
-                Founded in 2023, Crypto Fund Racing emerged from the vision to bridge the gap between
+                Founded in 2023, Crypto Fun Racing emerged from the vision to bridge the gap between
                 institutional-grade investment strategies and retail investors. Our founders recognized
                 that while cryptocurrency offered unprecedented opportunities, most investors lacked
                 access to professional management and sophisticated trading strategies.
@@ -138,7 +138,7 @@ const About: React.FC = () => {
         {/* Contact CTA */}
         <div className="text-center bg-primary-gray-dark rounded-2xl p-12 border border-primary-gray">
           <h2 className="text-3xl font-bold mb-4 text-white">Ready to Join the Race?</h2>
-          <p className="text-xl text-primary-gray-light mb-8 max-w-2xl mx-auto">Start your journey to financial success with Crypto Fund Racing</p>
+          <p className="text-xl text-primary-gray-light mb-8 max-w-2xl mx-auto">Start your journey to financial success with Crypto Fun Racing</p>
           <Link to="/create-campaign">
             <button className="bg-accent-red text-black border-none py-4 px-8 rounded-full text-lg font-semibold cursor-pointer transition-all duration-300 shadow-lg hover:-translate-y-1 hover:shadow-xl hover:bg-accent-red-dark">Get Started Today</button>
           </Link>

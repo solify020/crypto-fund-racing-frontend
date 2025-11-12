@@ -41,7 +41,7 @@ const HowItWorks: React.FC = () => {
         <div className="text-center mb-16">
           <h1 className="text-5xl font-extrabold mb-4 text-white">How It Works</h1>
           <p className="text-xl text-white max-w-2xl mx-auto leading-relaxed">
-            Get started with crypto fund racing in just 5 simple steps
+            Get started with Crypto Fun Racing in just 5 simple steps
           </p>
         </div>
 
@@ -84,7 +84,7 @@ const HowItWorks: React.FC = () => {
 
         <div className="text-center bg-primary-gray-dark rounded-2xl p-12 border border-primary-gray">
           <h2 className="text-3xl font-bold mb-4 text-white">Ready to Start Racing?</h2>
-          <p className="text-xl text-primary-gray-light mb-8 max-w-2xl mx-auto">Join thousands of investors already profiting from crypto fund racing</p>
+          <p className="text-xl text-primary-gray-light mb-8 max-w-2xl mx-auto">Join thousands of investors already profiting from Crypto Fun Racing</p>
           <Link to='/create-campaign'>
             <button className="bg-accent-red text-black border-none py-4 px-8 rounded-full text-lg font-semibold cursor-pointer transition-all duration-300 shadow-lg hover:-translate-y-1 hover:shadow-xl hover:bg-accent-red-dark">Get Started Now</button>
           </Link>
