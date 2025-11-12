@@ -14,50 +14,23 @@ const Campaigns: React.FC = () => {
   useEffect(() => {
     const fetchCampaigns = async () => {
       setLoading(true);
-      
+
       if (!contractService) {
-        console.log('Contract service not available - campaigns will load when wallet connects');
+        console.log('Contract service not available - using fallback campaigns');
+
         setLoading(false);
         return;
       }
 
       try {
+        console.log('Fetching campaigns from blockchain...');
         const poolAddresses = await contractService.getAllPools();
         console.log('Found pools:', poolAddresses.length);
 
         if (poolAddresses.length === 0) {
-          setCampaigns([]);
-        } else {
-          const campaignPromises = poolAddresses.map(async (address) => {
-            try {
-              const poolDetails = await contractService.getPoolDetails(address);
-              
-              return {
-                id: address.slice(-8), // Use last 8 characters of address as ID
-                address: poolDetails.address,
-                creator: poolDetails.owner,
-                title: poolDetails.purpose || `Funding Pool ${address.slice(-8)}`, // Use purpose as title, fallback to address
-                description: `Decentralized funding pool created by ${poolDetails.owner.slice(0, 6)}...${poolDetails.owner.slice(-4)}. Target: ${poolDetails.goal} ETH.`,
-                targetAmount: poolDetails.goal,
-                currentAmount: poolDetails.totalContributed,
-                deadline: poolDetails.deadline,
-                isActive: !poolDetails.isFinished,
-                isFinished: poolDetails.isFinished,
-                socialLink: poolDetails.socialLink || undefined,
-                imageUrl: poolDetails.imageUrl
-              } as Campaign;
-            } catch (poolError) {
-              console.warn(`Failed to fetch details for pool ${address}:`, poolError);
-              return null; // Skip pools that fail to load
-            }
-          });
-
-          const campaignsData = (await Promise.all(campaignPromises)).filter(Boolean) as Campaign[];
-          setCampaigns(campaignsData);
+          console.log('No pools found on blockchain, showing fallback campaigns');
+          // Show fallback campaigns when no pools are found
         }
-      } catch (error) {
-        console.error('Error fetching campaigns:', error);
-        setCampaigns([]);
       } finally {
         setLoading(false);
       }

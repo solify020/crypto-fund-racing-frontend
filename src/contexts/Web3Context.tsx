@@ -41,26 +41,87 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
   const [signer, setSigner] = useState<ethers.JsonRpcSigner | null>(null);
   const [contractService, setContractService] = useState<ContractService | null>(null);
 
-  // Initialize read-only contract service
+  // Initialize read-only contract service for both Base and Sepolia
   useEffect(() => {
-    const initializeReadOnlyService = async () => {
-      try {
-        // Create a read-only provider for viewing campaigns
-        const readOnlyProvider = new ethers.JsonRpcProvider(
-          'https://base-mainnet.g.alchemy.com/v2/demo' // Use Alchemy demo for base mainnet
-        );
+    const initializeMultiChainService = async () => {
+      // Define provider configurations for different networks
+      const networkConfigs = [
+        // Base Mainnet
+        {
+          networkName: 'Base Mainnet',
+          chainId: '0x2105', // Base mainnet chain ID in hex
+          baseUrl: 'https://mainnet.base.org',
+          providers: [
+            'https://base-mainnet.g.alchemy.com/v2/demo',
+            'https://mainnet.base.org',
+            'https://base.gateway.tenderly.co',
+            'https://1rpc.io/base'
+          ]
+        },
+        // Sepolia Testnet
+        {
+          networkName: 'Sepolia Testnet',
+          chainId: '0xaa36a7', // Sepolia testnet chain ID in hex
+          baseUrl: 'https://rpc.sepolia.org',
+          providers: [
+            'https://sepolia.drpc.org',
+            'https://rpc.sepolia.org',
+            'https://ethereum-sepolia-rpc.publicnode.com',
+            'https://1rpc.io/sepolia'
+          ]
+        }
+      ];
+
+      // Try each network until we find one that works
+      for (const network of networkConfigs) {
+        console.log(`Attempting to connect to ${network.networkName}...`);
         
-        // Initialize read-only contract service
-        const readOnlyService = new ContractService(readOnlyProvider);
-        setContractService(readOnlyService);
-      } catch (error) {
-        console.warn('Failed to initialize read-only service:', error);
-        // Fallback to null - campaigns won't load without wallet
-        setContractService(null);
+        let providerConnected = false;
+        
+        for (const providerUrl of network.providers) {
+          try {
+            const readOnlyProvider = new ethers.JsonRpcProvider(providerUrl);
+            
+            // Test the provider by getting network info
+            const networkInfo = await readOnlyProvider.getNetwork();
+            const currentChainId = '0x' + networkInfo.chainId.toString(16);
+            
+            // Check if this is the expected network
+            if (currentChainId === network.chainId ||
+                (network.networkName === 'Base Mainnet' && networkInfo.chainId === 8453n) ||
+                (network.networkName === 'Sepolia Testnet' && networkInfo.chainId === 11155111n)) {
+              
+              console.log(`Successfully connected to ${network.networkName} via ${providerUrl}`);
+              
+              // Initialize read-only contract service for this network
+              const readOnlyService = new ContractService(readOnlyProvider);
+              setContractService(readOnlyService);
+              console.log(`${network.networkName} read-only contract service initialized successfully`);
+              
+              providerConnected = true;
+              break;
+            } else {
+              console.log(`Wrong network connected via ${providerUrl}. Expected ${network.chainId}, got ${currentChainId}`);
+            }
+          } catch (error) {
+            console.warn(`Provider ${providerUrl} failed for ${network.networkName}:`, error);
+            continue;
+          }
+        }
+        
+        if (providerConnected) {
+          break; // Success, exit the network loop
+        }
+      }
+      
+      // If no provider worked, show fallback message
+      if (!contractService) {
+        console.warn('Failed to connect to any read-only provider. Campaign data will be limited.');
+        // Don't set contractService to null, let components handle fallback gracefully
       }
     };
 
-    initializeReadOnlyService();
+    initializeMultiChainService();
   }, []);
 
   const updateWalletState = async (ethereum: MetamaskProvider): Promise<void> => {
