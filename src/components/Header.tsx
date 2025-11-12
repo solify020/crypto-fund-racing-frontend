@@ -9,7 +9,7 @@ const Header: React.FC = () => {
     <header className="bg-primary-black py-4 shadow-lg sticky top-0 z-50 border-b-2 border-accent-red">
       <div className="max-w-7xl mx-auto px-8 flex justify-between items-center flex-wrap gap-4 md:flex-col md:text-center">
         <div className="logo">
-          <h1 className="text-white m-0 text-2xl font-bold flex items-center gap-2">🚀 CryptoFund Racing</h1>
+          <h1 className="text-white m-0 text-2xl font-bold flex items-center gap-2">🚀 Crypto Fun Racing</h1>
           <span className="text-white/80 text-sm font-normal block mt-1">Fuel Innovation with Crypto</span>
         </div>
 

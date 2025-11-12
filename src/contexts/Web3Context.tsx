@@ -41,87 +41,62 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
   const [signer, setSigner] = useState<ethers.JsonRpcSigner | null>(null);
   const [contractService, setContractService] = useState<ContractService | null>(null);
 
-  // Initialize read-only contract service for both Base and Sepolia
+  // Initialize read-only contract service
   useEffect(() => {
-    const initializeMultiChainService = async () => {
-      // Define provider configurations for different networks
-      const networkConfigs = [
-        // Base Mainnet
-        {
-          networkName: 'Base Mainnet',
-          chainId: '0x2105', // Base mainnet chain ID in hex
-          baseUrl: 'https://mainnet.base.org',
-          providers: [
-            'https://base-mainnet.g.alchemy.com/v2/demo',
-            'https://mainnet.base.org',
-            'https://base.gateway.tenderly.co',
-            'https://1rpc.io/base'
-          ]
-        },
-        // Sepolia Testnet
-        {
-          networkName: 'Sepolia Testnet',
-          chainId: '0xaa36a7', // Sepolia testnet chain ID in hex
-          baseUrl: 'https://rpc.sepolia.org',
-          providers: [
-            'https://sepolia.drpc.org',
-            'https://rpc.sepolia.org',
-            'https://ethereum-sepolia-rpc.publicnode.com',
-            'https://1rpc.io/sepolia'
-          ]
-        }
+    const initializeBlockchainConnection = async () => {
+      console.log('🔗 Initializing blockchain connectivity...');
+      
+      // Try the most reliable public providers
+      const providerUrls = [
+        'https://mainnet.base.org',           // Base mainnet - most reliable
+        'https://1rpc.io/base',              // Base fallback
+        'https://sepolia.drpc.org',          // Sepolia testnet
+        'https://rpc.sepolia.org'            // Sepolia fallback
       ];
 
-      // Try each network until we find one that works
-      for (const network of networkConfigs) {
-        console.log(`Attempting to connect to ${network.networkName}...`);
-        
-        let providerConnected = false;
-        
-        for (const providerUrl of network.providers) {
-          try {
-            const readOnlyProvider = new ethers.JsonRpcProvider(providerUrl);
-            
-            // Test the provider by getting network info
-            const networkInfo = await readOnlyProvider.getNetwork();
-            const currentChainId = '0x' + networkInfo.chainId.toString(16);
-            
-            // Check if this is the expected network
-            if (currentChainId === network.chainId ||
-                (network.networkName === 'Base Mainnet' && networkInfo.chainId === 8453n) ||
-                (network.networkName === 'Sepolia Testnet' && networkInfo.chainId === 11155111n)) {
-              
-              console.log(`Successfully connected to ${network.networkName} via ${providerUrl}`);
-              
-              // Initialize read-only contract service for this network
-              const readOnlyService = new ContractService(readOnlyProvider);
-              setContractService(readOnlyService);
-              console.log(`${network.networkName} read-only contract service initialized successfully`);
-              
-              providerConnected = true;
-              break;
-            } else {
-              console.log(`Wrong network connected via ${providerUrl}. Expected ${network.chainId}, got ${currentChainId}`);
-            }
-          } catch (error) {
-            console.warn(`Provider ${providerUrl} failed for ${network.networkName}:`, error);
-            continue;
-          }
-        }
-        
-        if (providerConnected) {
-          break; // Success, exit the network loop
+      let workingProvider: ethers.JsonRpcProvider | null = null;
+      
+      for (const providerUrl of providerUrls) {
+        try {
+          console.log(`🔍 Testing provider: ${providerUrl}`);
+          
+          const readOnlyProvider = new ethers.JsonRpcProvider(providerUrl);
+          
+          // Test basic connectivity
+          const networkInfo = await readOnlyProvider.getNetwork();
+          console.log(`✅ Connected to network: ${networkInfo.chainId} (${providerUrl})`);
+          
+          // Test a simple call
+          const blockNumber = await readOnlyProvider.getBlockNumber();
+          console.log(`✅ Latest block: ${blockNumber} (${providerUrl})`);
+          
+          // This provider is working
+          workingProvider = readOnlyProvider;
+          break;
+          
+        } catch (error) {
+          console.warn(`❌ Provider ${providerUrl} failed:`, error);
+          continue;
         }
       }
       
-      // If no provider worked, show fallback message
-      if (!contractService) {
-        console.warn('Failed to connect to any read-only provider. Campaign data will be limited.');
-        // Don't set contractService to null, let components handle fallback gracefully
+      // Initialize contract service with working provider
+      if (workingProvider) {
+        try {
+          console.log('📝 Initializing contract service...');
+          const readOnlyService = new ContractService(workingProvider);
+          setContractService(readOnlyService);
+          console.log('✅ Contract service initialized successfully');
+          
+        } catch (serviceError) {
+          console.error('❌ Failed to initialize contract service:', serviceError);
+        }
+      } else {
+        console.warn('⚠️ No working providers found');
       }
     };
 
-    initializeMultiChainService();
+    initializeBlockchainConnection();
   }, []);
 
   const updateWalletState = async (ethereum: MetamaskProvider): Promise<void> => {

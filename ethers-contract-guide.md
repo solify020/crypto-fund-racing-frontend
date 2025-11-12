@@ -180,7 +180,7 @@ try {
 }
 ```
 
-## Real Examples from Crypto Fund Racing
+## Real Examples from Crypto Fun Racing
 
 ### Get All Pools
 ```javascript

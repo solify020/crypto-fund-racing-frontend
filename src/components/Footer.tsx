@@ -6,7 +6,7 @@ const Footer: React.FC = () => {
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
           <div className="lg:col-span-2">
-            <h3 className="text-2xl font-bold mb-4 text-white">🚀 CryptoFund Racing</h3>
+            <h3 className="text-2xl font-bold mb-4 text-white">🚀 Crypto Fun Racing</h3>
             <p className="text-white leading-relaxed mb-6 text-sm">
               Accelerating innovation through decentralized funding.
               Join the future of crypto-powered project financing.
@@ -90,7 +90,7 @@ const Footer: React.FC = () => {
         <div className="border-t border-primary-gray pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-primary-gray-light text-sm m-0">
-              © 2024 CryptoFund Racing. All rights reserved.
+              © 2024 Crypto Fun Racing. All rights reserved.
             </p>
             <div className="flex items-center">
               <span className="flex items-center gap-2 px-4 py-2 bg-primary-gray-dark rounded-full text-sm font-medium text-primary-gray-light border border-primary-gray">

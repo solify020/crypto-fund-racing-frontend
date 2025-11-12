@@ -47,21 +47,29 @@ export class ContractService {
     try {
       const network = await this.provider.getNetwork();
       const chainId = network.chainId;
+      
+      console.log(`🔍 Detected network: Chain ID ${chainId}`);
 
       // Base Mainnet Chain ID is 8453
       if (chainId === 8453n) {
-        return CONTRACT_ADDRESSES.BASE_MAINNET.CRYPTO_FUND_RACING;
+        const address = CONTRACT_ADDRESSES.BASE_MAINNET.CRYPTO_FUND_RACING;
+        console.log(`📍 Using Base Mainnet contract address: ${address}`);
+        return address;
       }
 
       // Sepolia Testnet Chain ID is 11155111
       if (chainId === 11155111n) {
-        return CONTRACT_ADDRESSES.SEPOLIA_TESTNET.CRYPTO_FUND_RACING;
+        const address = CONTRACT_ADDRESSES.SEPOLIA_TESTNET.CRYPTO_FUND_RACING;
+        console.log(`📍 Using Sepolia contract address: ${address}`);
+        return address;
       }
 
       // Default to local development
-      return CONTRACT_ADDRESSES.CRYPTO_FUND_RACING;
+      const defaultAddress = CONTRACT_ADDRESSES.CRYPTO_FUND_RACING;
+      console.log(`📍 Using default contract address: ${defaultAddress}`);
+      return defaultAddress;
     } catch (error) {
-      console.warn('Could not detect network, using default address:', error);
+      console.warn('⚠️ Could not detect network, using default address:', error);
       return CONTRACT_ADDRESSES.CRYPTO_FUND_RACING;
     }
   }
