@@ -3,11 +3,19 @@ import { useWeb3 } from '../contexts/Web3Context';
 import CampaignCard from './CampaignCard';
 import type { Campaign } from '../types/web3';
 
+// Search icon component
+const SearchIcon = () => (
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+  </svg>
+);
+
 const Campaigns: React.FC = () => {
   const { contractService } = useWeb3();
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [filter, setFilter] = useState<'all' | 'active' | 'ended'>('all');
   const [sortBy, setSortBy] = useState<'newest' | 'progress' | 'deadline'>('newest');
+  const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
 
   // Helper function for fallback campaigns
@@ -152,6 +160,16 @@ const Campaigns: React.FC = () => {
     if (filter === 'active') return campaign.isActive;
     if (filter === 'ended') return !campaign.isActive;
     return true;
+  }).filter(campaign => {
+    if (!searchQuery.trim()) return true;
+    
+    const query = searchQuery.toLowerCase().trim();
+    return (
+      campaign.title.toLowerCase().includes(query) ||
+      campaign.description.toLowerCase().includes(query) ||
+      campaign.creator.toLowerCase().includes(query) ||
+      campaign.address.toLowerCase().includes(query)
+    );
   });
 
   const sortedCampaigns = [...filteredCampaigns].sort((a, b) => {
@@ -176,7 +194,8 @@ const Campaigns: React.FC = () => {
           <p className="text-xl text-white max-w-2xl mx-auto">Discover and support innovative crypto projects that are shaping the future</p>
         </div>
 
-        <div className="flex flex-col lg:flex-row justify-between items-center mb-12 p-6 bg-black rounded-xl border-2 border-white">
+        <div className="flex flex-col lg:flex-row justify-between items-center mb-12 p-6 bg-black rounded-xl border-2 border-white gap-6">
+          {/* Filter buttons */}
           <div className="flex gap-2 mb-4 lg:mb-0">
             <button
               className={`px-4 py-2 border-2 border-white rounded-lg cursor-pointer transition-all duration-300 font-medium hover:bg-white hover:text-black ${filter === 'all' ? 'bg-white text-black' : 'text-white bg-black'}`}
@@ -198,7 +217,33 @@ const Campaigns: React.FC = () => {
             </button>
           </div>
 
-          <div className="flex items-center gap-2">
+          {/* Search and Sort */}
+          <div className="flex items-center gap-4 flex-wrap">
+            {/* Search Input */}
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <SearchIcon />
+              </div>
+              <input
+                type="text"
+                placeholder="Search campaigns..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 pr-4 py-2 bg-black border-2 border-white text-white rounded-lg focus:outline-none focus:bg-white focus:text-black transition-colors duration-200 w-64"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-white hover:text-black transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+            </div>
+
+            {/* Sort Dropdown */}
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
@@ -231,7 +276,12 @@ const Campaigns: React.FC = () => {
             {sortedCampaigns.length === 0 && (
               <div className="text-center py-16 bg-white rounded-xl border-2 border-black">
                 <h3 className="text-2xl text-black mb-4">No campaigns found</h3>
-                <p className="text-black">Try adjusting your filters to see more campaigns.</p>
+                <p className="text-black">
+                  {searchQuery.trim()
+                    ? `No campaigns match "${searchQuery}". Try a different search term or adjust your filters.`
+                    : "No campaigns match the current filters. Try adjusting your filters to see more campaigns."
+                  }
+                </p>
               </div>
             )}
           </>
