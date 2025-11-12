@@ -10,27 +10,104 @@ const Campaigns: React.FC = () => {
   const [sortBy, setSortBy] = useState<'newest' | 'progress' | 'deadline'>('newest');
   const [loading, setLoading] = useState(true);
 
+  // Helper function for fallback campaigns
+  const getFallbackCampaigns = (): Campaign[] => {
+    return [
+      {
+        id: 'demo-1',
+        title: 'DeFi Trading Bot Revolution',
+        description: 'Building an AI-powered trading bot that uses machine learning to optimize DeFi yield farming strategies across multiple protocols.',
+        address: '0x742d35Cc6634C0532925a3b8D4C0532925a3b8D4',
+        targetAmount: '50.0',
+        currentAmount: '32.5',
+        creator: '0x742d35Cc6634C0532925a3b8D4C0532925a3b8D4',
+        deadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        isActive: true,
+        image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=200&fit=crop'
+      },
+      {
+        id: 'demo-2',
+        title: 'NFT Marketplace for Digital Art',
+        description: 'Creating a next-generation NFT marketplace with zero gas fees, advanced royalty systems, and creator-friendly features.',
+        address: '0x8ba1f109551bD432803012645Hac189451b957',
+        targetAmount: '75.0',
+        currentAmount: '45.8',
+        creator: '0x8ba1f109551bD432803012645Hac189451b957',
+        deadline: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000),
+        isActive: true,
+        image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=200&fit=crop'
+      },
+      {
+        id: 'demo-3',
+        title: 'Blockchain Gaming Platform',
+        description: 'Developing a play-to-earn gaming ecosystem where players can earn crypto rewards through skill-based gameplay.',
+        address: '0x9f2d35Cc6634C0532925a3b8D4C0532925a3b8D4',
+        targetAmount: '100.0',
+        currentAmount: '78.2',
+        creator: '0x9f2d35Cc6634C0532925a3b8D4C0532925a3b8D4',
+        deadline: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000),
+        isActive: true,
+        image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&h=200&fit=crop'
+      }
+    ];
+  };
+
   // Fetch campaigns from contract
   useEffect(() => {
     const fetchCampaigns = async () => {
       setLoading(true);
-
+      console.log('🔄 Starting campaign fetch...');
+      
       if (!contractService) {
-        console.log('Contract service not available - using fallback campaigns');
-
+        console.log('⚠️ Contract service not available - using fallback campaigns');
+        setCampaigns(getFallbackCampaigns());
         setLoading(false);
         return;
       }
 
       try {
-        console.log('Fetching campaigns from blockchain...');
+        console.log('📡 Attempting to fetch campaigns from blockchain...');
         const poolAddresses = await contractService.getAllPools();
-        console.log('Found pools:', poolAddresses.length);
+        console.log(`✅ Found ${poolAddresses.length} pools on blockchain`);
 
         if (poolAddresses.length === 0) {
-          console.log('No pools found on blockchain, showing fallback campaigns');
-          // Show fallback campaigns when no pools are found
+          console.log('📋 No pools found on blockchain - showing demo campaigns');
+          setCampaigns(getFallbackCampaigns());
+        } else {
+          console.log('📊 Processing pool details...');
+          const campaignPromises = poolAddresses.map(async (address) => {
+            try {
+              const poolDetails = await contractService.getPoolDetails(address);
+              console.log(`✅ Processed pool ${address}: ${poolDetails.purpose}`);
+              
+              return {
+                id: address.slice(-8),
+                address: poolDetails.address,
+                creator: poolDetails.owner,
+                title: poolDetails.purpose || `Funding Pool ${address.slice(-8)}`,
+                description: `Decentralized funding pool created by ${poolDetails.owner.slice(0, 6)}...${poolDetails.owner.slice(-4)}. Target: ${poolDetails.goal} ETH.`,
+                targetAmount: poolDetails.goal,
+                currentAmount: poolDetails.totalContributed,
+                deadline: poolDetails.deadline,
+                isActive: !poolDetails.isFinished,
+                isFinished: poolDetails.isFinished,
+                socialLink: poolDetails.socialLink || undefined,
+                imageUrl: poolDetails.imageUrl
+              } as Campaign;
+            } catch (poolError) {
+              console.warn(`❌ Failed to fetch details for pool ${address}:`, poolError);
+              return null;
+            }
+          });
+
+          const campaignsData = (await Promise.all(campaignPromises)).filter(Boolean) as Campaign[];
+          console.log(`✅ Successfully loaded ${campaignsData.length} campaigns`);
+          setCampaigns(campaignsData);
         }
+      } catch (error) {
+        console.error('❌ Error fetching campaigns from blockchain:', error);
+        console.log('🔄 Falling back to demo campaigns...');
+        setCampaigns(getFallbackCampaigns());
       } finally {
         setLoading(false);
       }

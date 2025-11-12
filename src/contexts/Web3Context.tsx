@@ -48,10 +48,10 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
       
       // Try the most reliable public providers
       const providerUrls = [
-        'https://mainnet.base.org',           // Base mainnet - most reliable
-        'https://1rpc.io/base',              // Base fallback
-        'https://sepolia.drpc.org',          // Sepolia testnet
-        'https://rpc.sepolia.org'            // Sepolia fallback
+        'https://base-mainnet.infura.io/v3/b35568bc5a9648329860b04450985c4c',           // Base mainnet - most reliable
+        'https://base-mainnet.infura.io/v3/b35568bc5a9648329860b04450985c4c',              // Base fallback
+        'https://sepolia.infura.io/v3/b35568bc5a9648329860b04450985c4c',          // Sepolia testnet
+        'https://sepolia.infura.io/v3/b35568bc5a9648329860b04450985c4c'            // Sepolia fallback
       ];
 
       let workingProvider: ethers.JsonRpcProvider | null = null;
