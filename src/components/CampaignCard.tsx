@@ -71,7 +71,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
     <div className="bg-black rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-white/30 border-2 border-white">
       <div className={`relative h-32 ${campaign.imageUrl ? 'bg-cover bg-center' : 'bg-white/10'} overflow-hidden`} style={campaign.imageUrl ? { backgroundImage: `url(${campaign.imageUrl})` } : {}}>
         <div className="absolute top-4 right-4">
-          {campaign.isActive ? (
+          {campaign.isFinished ? (
             <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-white text-black shadow-lg">Active</span>
           ) : (
             <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-black text-white shadow-lg border border-white">Ended</span>
@@ -153,7 +153,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
                   </button>
 
                   {/* Withdraw Button - For campaign creator when goal is met */}
-                  {canUserWithdraw && (
+                  {canUserWithdraw && campaign.isActive && (
                     <button
                       className="w-full py-2 bg-green-600 text-white rounded-lg font-semibold cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed mb-2"
                       onClick={async () => {
