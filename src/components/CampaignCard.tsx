@@ -14,6 +14,8 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showDonateForm, setShowDonateForm] = useState(false);
   const [userContribution, setUserContribution] = useState<string>('0');
+  const [canUserWithdraw, setCanUserWithdraw] = useState(false);
+  const [canUserRefund, setCanUserRefund] = useState(false);
 
   const progress = (parseFloat(campaign.currentAmount) / parseFloat(campaign.targetAmount)) * 100;
   // const isFinished = campaign.isFinished || false;
@@ -26,6 +28,15 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
       try {
         const contribution = await contractService.getContribution(campaign.address, walletState.account);
         setUserContribution(contribution);
+
+        // Check if user can withdraw (creator and goal met)
+        const canWithdraw = await contractService.canWithdraw(campaign.address, walletState.account);
+        setCanUserWithdraw(canWithdraw);
+
+        // Check if user can refund (has contributed and goal not met after deadline)
+        const canRefund = await contractService.canRefund(campaign.address, walletState.account);
+        setCanUserRefund(canRefund);
+
       } catch (error) {
         console.error('Error fetching user contribution:', error);
         // Don't show error to user, just continue without contribution info
@@ -58,7 +69,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
 
   return (
     <div className="bg-black rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-white/30 border-2 border-white">
-      <div className={`relative h-32 ${campaign.imageUrl ? 'bg-cover bg-center' : 'bg-white/10'} overflow-hidden`} style={campaign.imageUrl ? {backgroundImage: `url(${campaign.imageUrl})`} : {}}>
+      <div className={`relative h-32 ${campaign.imageUrl ? 'bg-cover bg-center' : 'bg-white/10'} overflow-hidden`} style={campaign.imageUrl ? { backgroundImage: `url(${campaign.imageUrl})` } : {}}>
         <div className="absolute top-4 right-4">
           {campaign.isActive ? (
             <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-white text-black shadow-lg">Active</span>
@@ -67,22 +78,28 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
           )}
         </div>
         <div className="absolute bottom-4 left-4">
-          <div className="text-white text-xl font-mono drop-shadow-lg">
+          {/* <div className="text-white text-xl font-mono drop-shadow-lg">
             {campaign.title}
-          </div>
-          {campaign.socialLink && (
+          </div> */}
+          {/* {campaign.socialLink && (
             <div className="text-white/90 text-xs mt-1 truncate max-w-32 drop-shadow">
               <a href={campaign.socialLink} className="text-white hover:text-white/80 underline" target="_blank" rel="noopener noreferrer">
                 {campaign.socialLink}
               </a>
             </div>
-          )}
+          )} */}
         </div>
       </div>
 
       <div className="p-6">
-        <h3 className="text-xl font-bold text-white mb-3 leading-tight">Funding Progress</h3>
-
+        <h3 className="text-xl font-bold text-white mb-3 leading-tight">{campaign.title}</h3>
+        {campaign.socialLink && (
+          <div className="text-white/90 text-xs mt-1 truncate max-w-32 drop-shadow">
+            <a href={campaign.socialLink} className="text-white hover:text-white/80 underline" target="_blank" rel="noopener noreferrer">
+              {campaign.socialLink}
+            </a>
+          </div>
+        )}
         <div className="mb-6">
           <div className="w-full h-2 bg-white/50 rounded-full overflow-hidden mb-3 border border-white/30">
             <div
@@ -135,51 +152,50 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
                     {campaign.isActive ? 'Fund This Project' : 'Campaign Ended'}
                   </button>
 
-                  {campaign.creator.toLowerCase() === walletState.account?.toLowerCase() && !campaign.isFinished && (
-                    <div className="flex gap-2">
-                      <button
-                        className="flex-1 py-2 bg-white text-black rounded-lg font-semibold cursor-pointer transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
-                        onClick={async () => {
-                          if (!contractService) return;
-                          try {
-                            const canWithdraw = await contractService.canWithdraw(campaign.address, campaign.creator);
-                            if (canWithdraw) {
-                              const txHash = await contractService.withdrawFromPool(campaign.address);
-                              alert(`Withdrawal successful! Pool is now ended. Transaction hash: ${txHash}`);
-                              window.location.reload();
-                            } else {
-                              alert('Cannot withdraw yet. Goal not met.');
-                            }
-                          } catch (error) {
-                            console.error('Withdrawal failed:', error);
-                            alert('Withdrawal failed. Please try again.');
-                          }
-                        }}
-                      >
-                        Withdraw
-                      </button>
+                  {/* Withdraw Button - For campaign creator when goal is met */}
+                  {canUserWithdraw && (
+                    <button
+                      className="w-full py-2 bg-green-600 text-white rounded-lg font-semibold cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed mb-2"
+                      onClick={async () => {
+                        if (!contractService) return;
+                        try {
+                          const txHash = await contractService.withdrawFromPool(campaign.address);
+                          alert(`Withdrawal successful! Transaction hash: ${txHash}`);
+                          window.location.reload();
+                        } catch (error) {
+                          console.error('Withdrawal failed:', error);
+                          alert('Withdrawal failed. Please try again.');
+                        }
+                      }}
+                    >
+                      💰 Withdraw Funds (Goal Met)
+                    </button>
+                  )}
 
-                      <button
-                        className="flex-1 py-2 bg-black text-white rounded-lg font-semibold cursor-pointer transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed border border-white"
-                        onClick={async () => {
-                          if (!contractService) return;
-                          try {
-                            const canRefund = await contractService.canRefund(campaign.address);
-                            if (canRefund) {
-                              const txHash = await contractService.refundFromPool(campaign.address);
-                              alert(`Refund successful! Pool is now ended. Transaction hash: ${txHash}`);
-                              window.location.reload();
-                            } else {
-                              alert('Cannot refund yet. Campaign may still be active or goal was met.');
-                            }
-                          } catch (error) {
-                            console.error('Refund failed:', error);
-                            alert('Refund failed. Please try again.');
-                          }
-                        }}
-                      >
-                        Refund
-                      </button>
+                  {/* Refund Button - For contributors when goal not met and deadline passed */}
+                  {canUserRefund && parseFloat(userContribution) > 0 && (
+                    <button
+                      className="w-full py-2 bg-red-600 text-white rounded-lg font-semibold cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                      onClick={async () => {
+                        if (!contractService) return;
+                        try {
+                          const txHash = await contractService.refundFromPool(campaign.address);
+                          alert(`Refund successful! Your ${userContribution} ETH has been returned. Transaction hash: ${txHash}`);
+                          window.location.reload();
+                        } catch (error) {
+                          console.error('Refund failed:', error);
+                          alert('Refund failed. Please try again.');
+                        }
+                      }}
+                    >
+                      🔄 Get Refund ({userContribution} ETH)
+                    </button>
+                  )}
+
+                  {/* Show info message for other scenarios */}
+                  {!canUserWithdraw && !canUserRefund && parseFloat(userContribution) > 0 && !campaign.isActive && (
+                    <div className="text-center p-3 bg-yellow-100 text-yellow-800 rounded-lg text-sm border border-yellow-300">
+                      Campaign ended. Refunds available if goal was not met.
                     </div>
                   )}
                 </div>

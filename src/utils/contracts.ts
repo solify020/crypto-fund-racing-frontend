@@ -197,12 +197,31 @@ export class ContractService {
            parseFloat(poolDetails.totalContributed) >= parseFloat(poolDetails.goal);
   }
 
-  async canRefund(poolAddress: string): Promise<boolean> {
+  async canRefund(poolAddress: string, userAddress?: string): Promise<boolean> {
+    if (!this.signer && !userAddress) {
+      return false;
+    }
+
     const poolDetails = await this.getPoolDetails(poolAddress);
     const deadlinePassed = await this.isDeadlinePassed(poolAddress);
 
-    return deadlinePassed &&
-           parseFloat(poolDetails.totalContributed) < parseFloat(poolDetails.goal);
+    // Check if deadline passed and goal not met
+    if (!deadlinePassed || parseFloat(poolDetails.totalContributed) >= parseFloat(poolDetails.goal)) {
+      return false;
+    }
+
+    // If user address is provided, check if they have contributed
+    if (userAddress) {
+      try {
+        const contribution = await this.getContribution(poolAddress, userAddress);
+        return parseFloat(contribution) > 0;
+      } catch (error) {
+        console.error('Error checking user contribution:', error);
+        return false;
+      }
+    }
+
+    return true;
   }
 }
 

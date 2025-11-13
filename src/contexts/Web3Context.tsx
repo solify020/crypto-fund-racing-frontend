@@ -5,13 +5,14 @@ import type { WalletState, MetamaskProvider } from '../types/web3';
 import { initializeContractService, ContractService } from '../utils/contracts';
 
 interface Web3ContextType {
-  walletState: WalletState;
-  connectWallet: () => Promise<void>;
-  disconnectWallet: () => void;
-  sendTransaction: (to: string, amount: string) => Promise<string>;
-  provider: ethers.Provider | null;
-  signer: ethers.JsonRpcSigner | null;
-  contractService: ContractService | null;
+walletState: WalletState;
+connectWallet: () => Promise<void>;
+disconnectWallet: () => void;
+sendTransaction: (to: string, amount: string) => Promise<string>;
+provider: ethers.Provider | null;
+signer: ethers.JsonRpcSigner | null;
+contractService: ContractService | null;
+readOnlyContractService: ContractService | null;
 }
 
 const Web3Context = createContext<Web3ContextType | undefined>(undefined);
@@ -40,6 +41,7 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
   const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
   const [signer, setSigner] = useState<ethers.JsonRpcSigner | null>(null);
   const [contractService, setContractService] = useState<ContractService | null>(null);
+  const [readOnlyContractService, setReadOnlyContractService] = useState<ContractService | null>(null);
 
   // Initialize read-only contract service
   useEffect(() => {
@@ -83,10 +85,10 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
       // Initialize contract service with working provider
       if (workingProvider) {
         try {
-          console.log('📝 Initializing contract service...');
+          console.log('📝 Initializing read-only contract service...');
           const readOnlyService = new ContractService(workingProvider);
-          setContractService(readOnlyService);
-          console.log('✅ Contract service initialized successfully');
+          setReadOnlyContractService(readOnlyService);
+          console.log('✅ Read-only contract service initialized successfully');
           
         } catch (serviceError) {
           console.error('❌ Failed to initialize contract service:', serviceError);
@@ -173,6 +175,7 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
     setProvider(null);
     setSigner(null);
     setContractService(null);
+    // Keep readOnlyContractService for viewing campaigns without wallet
   };
 
   const sendTransaction = async (to: string, amount: string): Promise<string> => {
@@ -241,6 +244,7 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
     provider,
     signer,
     contractService,
+    readOnlyContractService,
   };
 
   return <Web3Context.Provider value={value}>{children}</Web3Context.Provider>;

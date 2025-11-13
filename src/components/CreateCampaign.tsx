@@ -159,9 +159,9 @@ const CreateCampaign: React.FC = () => {
                   name="targetAmount"
                   value={formData.targetAmount}
                   onChange={handleInputChange}
-                  placeholder="100.0000"
-                  step="0.1"
-                  min="0.0001"
+                  placeholder="100.00"
+                  step="0.01"
+                  min="0.01"
                   className="w-full p-4 bg-white/5 border border-white rounded-lg text-white placeholder-white focus:outline-none focus:border-white focus:ring-2 focus:ring-white/10 transition-colors"
                 />
               </div>

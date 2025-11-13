@@ -11,7 +11,11 @@ const SearchIcon = () => (
 );
 
 const Campaigns: React.FC = () => {
-  const { contractService } = useWeb3();
+  const { contractService, readOnlyContractService, walletState } = useWeb3();
+  
+  // Use contractService if wallet is connected, otherwise use readOnlyContractService
+  const activeContractService = walletState.isConnected ? contractService : readOnlyContractService;
+  
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [filter, setFilter] = useState<'all' | 'active' | 'ended'>('all');
   const [sortBy, setSortBy] = useState<'newest' | 'progress' | 'deadline'>('newest');
@@ -66,7 +70,7 @@ const Campaigns: React.FC = () => {
       setLoading(true);
       console.log('🔄 Starting campaign fetch...');
       
-      if (!contractService) {
+      if (!activeContractService) {
         console.log('⚠️ Contract service not available - using fallback campaigns');
         setCampaigns(getFallbackCampaigns());
         setLoading(false);
@@ -75,7 +79,7 @@ const Campaigns: React.FC = () => {
 
       try {
         console.log('📡 Attempting to fetch campaigns from blockchain...');
-        const poolAddresses = await contractService.getAllPools();
+        const poolAddresses = await activeContractService.getAllPools();
         console.log(`✅ Found ${poolAddresses.length} pools on blockchain`);
 
         if (poolAddresses.length === 0) {
@@ -85,7 +89,7 @@ const Campaigns: React.FC = () => {
           console.log('📊 Processing pool details...');
           const campaignPromises = poolAddresses.map(async (address) => {
             try {
-              const poolDetails = await contractService.getPoolDetails(address);
+              const poolDetails = await activeContractService.getPoolDetails(address);
               console.log(`✅ Processed pool ${address}: ${poolDetails.purpose}`);
               
               return {
